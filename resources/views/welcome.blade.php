@@ -75,7 +75,7 @@
 
             <div class="content">
                 <div class="title m-b-md">
-                    Laravel
+                    Laravel HW-1 done!
                 </div>
 
                 <div class="links">
