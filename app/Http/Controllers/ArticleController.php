@@ -36,9 +36,7 @@ class ArticleController extends Controller
         if (!empty($article)) {
             return view('articleView' , ['article' => $article]);       
         } else {
-            $message =  'Добавить перенаправление на 404 ошибку';
-            return view('message' ,
-                ['message' => $message]); 
+            abort(404);
         }
     }
 
