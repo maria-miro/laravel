@@ -17,7 +17,6 @@ class ArticleController extends Controller
     //
     public function List()
     {
-    	
         return view('index' , ['articles' => $this->articles]);		
     }
 
@@ -86,7 +85,7 @@ class ArticleController extends Controller
         $content = $this->request->input('content');
        
         // временная переменная до подключения валидатора и модели
-        $articleAdded = false;
+        $articleAdded = true;
          
         if ($articleAdded){ 
 

@@ -3,6 +3,9 @@
 namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
+use Illuminate\Support\Facades\View;
+use Illuminate\Http\Request;
+
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -11,9 +14,13 @@ class AppServiceProvider extends ServiceProvider
      *
      * @return void
      */
-    public function boot()
+    public function boot(Request $request)
     {
         //
+        $path = $request->path();
+        $auth = false;
+        View::share('path', $path);
+        View::share('auth', $auth);
     }
 
     /**

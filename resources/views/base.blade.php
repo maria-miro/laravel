@@ -43,7 +43,7 @@
         <div class="header-content twelve columns">
 
               <h1 id="logo-text"><a href="index.html" title="">Maria's blog</a></h1>
-                <p id="intro">My first blog on Laravel</p>
+                <p id="intro">My first blog on Laravel  </p>
 
             </div>          
 
@@ -57,24 +57,28 @@
         <div class="row">                       
 
                 <ul id="nav" class="nav">
-                    <li class="current"><a href="/">Home</a></li>
-                    <li class="has-children"><a href="#">Dropdown</a>
-                      <ul>
-                         <li><a href="#">Submenu 01</a></li>
-                         <li><a href="#">Submenu 02</a></li>
-                         <li><a href="#">Submenu 03</a></li>
-                      </ul>
-                   </li>
-                   <li><a href="#">Demo</a></li>    
-                   <li><a href="#">Archives</a></li>
-                    <li class="has-children"><a href="#">Blog</a>
-                            <ul>
-                         <li><a href="#">Blog Entries</a></li>
-                         <li><a href="#">Single Blog</a></li>                      
-                      </ul>
-                    </li>               
-                    <li><a href="#">Page</a></li>
-                </ul> <!-- end #nav -->              
+                    <li  
+                    @if ($path == "/" )
+                        class = "current"
+                    @endif
+                    ><a href="/">Главная</a></li>
+                    <li 
+                    @if ($path == "article/add" )
+                        class = "current"
+                    @endif
+                    ><a href="/article/add">Новая статья</a></li>
+                    <li>
+                    @if ($auth)
+                       <a href="/logout">Выйти</a> 
+                    @else
+                        <a href="/login">Войти</a> 
+                    @endif
+                    </li>  
+
+
+                </ul> <!-- end #nav -->     
+             
+            
 
         </div> 
 
@@ -84,16 +88,20 @@
         
     <div id="content-wrap">
 
-        <div class="row">
+        <div class="row section-head">
 
-            <div id="main" class="eight columns">
+            <div id="main" class="twelve columns">
  
             @section ('content')
 
             @show    
        
             </div> <!-- end main -->
+
+
         </div> <!-- end row -->
+
+
 
    </div> <!-- end content-wrap -->     
 
@@ -116,19 +124,6 @@
         </div>
 
 
-         
-
-         <div class="two columns">
-            <h3 class="social">Navigate</h3>
-
-            <ul class="navigate group">
-               <li><a href="#">Home</a></li>
-               <li><a href="#">Blog</a></li>
-               <li><a href="#">Demo</a></li>
-               <li><a href="#">Archives</a></li>
-               <li><a href="#">About</a></li>
-            </ul>
-         </div>
 
          <p class="copyright">&copy; Copyright 2016 Maria Miroshnichenko. &nbsp; Design by <a title="Styleshout" href="http://www.styleshout.com/">Styleshout</a>.</p>
         

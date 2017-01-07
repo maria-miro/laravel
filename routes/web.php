@@ -25,19 +25,19 @@ Route::group(['prefix' => 'article'], function(){
 	Route::post('/add', 
 			'ArticleController@PostAdd');
 
-	Route::get('/edit/{id}', 
+	Route::get('/{id}/edit', 
 			'ArticleController@GetEdit')
 			->where('id', '[0-9]+');
 
-	Route::post('/edit/{id}', 
+	Route::post('/{id}/edit', 
 			'ArticleController@PostEdit')
 			->where('id', '[0-9]+');
 
-	Route::get('/delete/{id}', 
+	Route::get('/{id}/delete', 
 			'ArticleController@GetDelete')
 			->where('id', '[0-9]+');
 
-	Route::post('/delete/{id}', 
+	Route::post('/{id}/delete', 
 			'ArticleController@PostDelete')
 			->where('id', '[0-9]+');
 
