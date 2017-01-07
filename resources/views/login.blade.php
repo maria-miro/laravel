@@ -3,6 +3,8 @@
 @section ('content')
 
     <form method="post">
+         {{ csrf_field() }}
+
         Логин<br>
         <input type="text" name="login" value = ""><br>
         Пароль<br>

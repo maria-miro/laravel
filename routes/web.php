@@ -11,7 +11,8 @@
 |
 */
 
-Route::get('/', 'ArticleController@List');
+Route::get('/', 'ArticleController@List')
+			->name('home')	;
 
 Route::group(['prefix' => 'article'], function(){
 
@@ -44,8 +45,11 @@ Route::group(['prefix' => 'article'], function(){
 });
 
 
-Route::match(['get', 'post'],'/login', 
-			'UserController@Login');
+Route::get('/login', 
+			'UserController@GetLogin');
+
+Route::post('/login', 
+			'UserController@PostLogin');
 
 Route::get('/logout', 'UserController@Logout');
 
