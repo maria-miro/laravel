@@ -5,10 +5,10 @@
 
          {{ csrf_field() }}
             Заголовок статьи<br>
-            <input type="text" name="title" size="80" value = ><br>
+            <input type="text" name="title" size="80" value ="{{$title}}"><br>
 
             Текст статьи<br>
-            <textarea name="content"  cols="80" rows="10" > </textarea><br>
+            <textarea name="content"  cols="80" rows="10" >{{$content}}</textarea><br>
 
              <input type="submit" value="Сохранить"><br>
         </form>

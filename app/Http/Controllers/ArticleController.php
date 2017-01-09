@@ -17,7 +17,7 @@ class ArticleController extends Controller
     //
     public function List()
     {
-        return view('index' , ['articles' => $this->articles]);		
+        return view('article.list' , ['articles' => $this->articles]);		
     }
 
     public function View($id)
@@ -33,7 +33,7 @@ class ArticleController extends Controller
     	}
 
         if (!empty($article)) {
-            return view('articleView' , ['article' => $article]);       
+            return view('article.one' , ['article' => $article]);       
         } else {
             abort(404);
         }
@@ -41,7 +41,7 @@ class ArticleController extends Controller
 
     public function GetAdd()
     {
-        return view('articleAdd');
+        return view('article.add');
     }   
 
     public function PostAdd()
@@ -50,7 +50,7 @@ class ArticleController extends Controller
     	$content = $this->request->input('content');
        
         // временная переменная до подключения валидатора и модели
-        $articleAdded = true;
+        $articleAdded = false;
          
     	if ($articleAdded){	
 
@@ -59,10 +59,7 @@ class ArticleController extends Controller
                 ['message' => $message]);  
 
         } else {
-            return view('articleAdd', [
-                 'title' => $title,  
-                 'content' => $content,  
-                 ]);  
+            return redirect()->back()->withInput();
         }     		
     }
 
@@ -73,7 +70,7 @@ class ArticleController extends Controller
         $title = '111';
         $content = '222';
 
-        return view('articleAdd', [
+        return view('article.edit', [
                  'title' => $title,  
                  'content' => $content,  
                  ]); 
@@ -89,12 +86,12 @@ class ArticleController extends Controller
          
         if ($articleAdded){ 
 
-            $message =  "Будет отредактирована статья с id $id c названием \"$title\" Текст статьи: $content";
+            $message =  "Будет отредактирована статья id $id c названием \"$title\" Текст статьи: $content";
             return view('message' ,
                 ['message' => $message]);  
 
         } else {
-            return view('articleAdd', [
+            return view('article.add', [
                  'title' => $title,  
                  'content' => $content,  
                  ]);  
@@ -107,7 +104,7 @@ class ArticleController extends Controller
         $articleExists = true;
 
         if ($articleExists) {
-            return view('articleDeleteConfirm');
+            return view('article.deleteConfirm');
         } else {
             $message =  "Такой статьи не существует";
             return view('message' ,

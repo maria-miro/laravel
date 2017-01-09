@@ -45,13 +45,24 @@ Route::group(['prefix' => 'article'], function(){
 });
 
 
+Route::group(['prefix' => 'admin',
+			'namespace' => 'Admin'],
+			 function(){
+
+	Route::get('/articles', 'ArticleController@Editor');	 	
+	Route::get('/users', 'UserController@Editor');	 	
+
+
+});
+
+
 Route::get('/login', 
-			'UserController@GetLogin');
+			'LoginController@GetLogin');
 
 Route::post('/login', 
-			'UserController@PostLogin');
+			'LoginController@PostLogin');
 
-Route::get('/logout', 'UserController@Logout');
+Route::get('/logout', 'LoginController@Logout');
 
 
 

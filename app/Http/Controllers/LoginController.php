@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\View;
 
 
-class UserController extends Controller
+class LoginController extends Controller
 {
     
     public function GetLogin()
@@ -16,14 +16,15 @@ class UserController extends Controller
 
     public function PostLogin()
     {
-    	View::share('auth', true);
-    	  return redirect()->back();
+    	// добавить валидацию, функционал
+    
+    	  return redirect()->home();
 	
     }
 
     public function Logout()
     {
-    	View::share('auth', false);
+    	// добавить функционал
     	return redirect()->home();
     }
 }

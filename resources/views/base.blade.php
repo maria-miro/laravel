@@ -73,7 +73,13 @@
                     @else
                         <a href="/login">Войти</a> 
                     @endif
-                    </li>  
+                    </li> 
+                    <li class="has-children"><a href="">Админ</a>
+                            <ul>
+                         <li><a href="/admin/articles">Редактировать статьи</a></li>
+                         <li><a href="/admin/users">Редактировать пользователей</a></li>                      
+                      </ul>
+                    </li>    
 
 
                 </ul> <!-- end #nav -->     
@@ -110,20 +116,6 @@
    <footer>
 
       <div class="row"> 
-
-        <div class="twelve columns">    
-                <ul class="social-links">
-               <li><a href="#"><i class="fa fa-facebook"></i></a></li>
-               <li><a href="#"><i class="fa fa-twitter"></i></a></li>
-               <li><a href="#"><i class="fa fa-google-plus"></i></a></li>               
-               <li><a href="#"><i class="fa fa-github-square"></i></a></li>
-               <li><a href="#"><i class="fa fa-instagram"></i></a></li>
-               <li><a href="#"><i class="fa fa-flickr"></i></a></li>               
-               <li><a href="#"><i class="fa fa-skype"></i></a></li>
-            </ul>           
-        </div>
-
-
 
          <p class="copyright">&copy; Copyright 2016 Maria Miroshnichenko. &nbsp; Design by <a title="Styleshout" href="http://www.styleshout.com/">Styleshout</a>.</p>
         
