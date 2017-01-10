@@ -10,7 +10,7 @@ use App\Http\Controllers\Controller;
 class UserController extends Controller
 {
     
-    public function Editor()
+    public function editAllArticles()
     {
     	return view('admin.users');		
     }

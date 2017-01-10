@@ -11,58 +11,52 @@
 |
 */
 
-Route::get('/', 'ArticleController@List')
+Route::get('/', 'ArticleController@showList')
 			->name('home')	;
 
 Route::group(['prefix' => 'article'], function(){
 
 	Route::get('/{id}',
-		 	'ArticleController@View')
+		 	'ArticleController@showOne')
 			->where('id', '[0-9]+');
 
 	Route::get('/add', 
-			'ArticleController@GetAdd');
+			'ArticleController@getAdd');
 
 	Route::post('/add', 
-			'ArticleController@PostAdd');
+			'ArticleController@postAdd');
 
 	Route::get('/{id}/edit', 
-			'ArticleController@GetEdit')
+			'ArticleController@getEdit')
 			->where('id', '[0-9]+');
 
 	Route::post('/{id}/edit', 
-			'ArticleController@PostEdit')
+			'ArticleController@postEdit')
 			->where('id', '[0-9]+');
 
 	Route::get('/{id}/delete', 
-			'ArticleController@GetDelete')
+			'ArticleController@getDelete')
 			->where('id', '[0-9]+');
 
 	Route::post('/{id}/delete', 
-			'ArticleController@PostDelete')
+			'ArticleController@postDelete')
 			->where('id', '[0-9]+');
-
 });
 
 
 Route::group(['prefix' => 'admin',
 			'namespace' => 'Admin'],
 			 function(){
-
-	Route::get('/articles', 'ArticleController@Editor');	 	
-	Route::get('/users', 'UserController@Editor');	 	
-
-
+	Route::get('/articles', 'ArticleController@editAllArticles');	 	
+	Route::get('/users', 'UserController@editAllUsers');	 	
 });
 
 
-Route::get('/login', 
-			'LoginController@GetLogin');
+Route::get('/login', 'LoginController@getLogin');
 
-Route::post('/login', 
-			'LoginController@PostLogin');
+Route::post('/login', 'LoginController@postLogin');
 
-Route::get('/logout', 'LoginController@Logout');
+Route::get('/logout', 'LoginController@logout');
 
 
 
