@@ -68,7 +68,7 @@
                     @endif
                     ><a href="/article/add">Новая статья</a></li>
                     <li>
-                    @if ($auth)
+                    @if (session('auth'))
                        <a href="/logout">Выйти</a> 
                     @else
                         <a href="/login">Войти</a> 

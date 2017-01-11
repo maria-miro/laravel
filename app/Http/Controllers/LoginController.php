@@ -17,13 +17,14 @@ class LoginController extends Controller
     public function postLogin()
     {
     	// добавить валидацию, функционал
-    
-    	  return redirect()->home();
+        session(['auth' => true]);
+    	return redirect()->home();
     }
 
     public function logout()
     {
     	// добавить функционал
+        session(['auth' => false]);
     	return redirect()->home();
     }
 }
