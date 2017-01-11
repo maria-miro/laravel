@@ -17,9 +17,10 @@ class AppServiceProvider extends ServiceProvider
     public function boot(Request $request)
     {
       
-        $path = $request->path();
-        View::share('path', $path);
-        View::share('auth', false);
+        require_once(app_path() . '/helpers.php');
+        // $path = $request->path();
+        // View::share('path', $path);
+  
 
 
     }
