@@ -18,8 +18,31 @@ class AppServiceProvider extends ServiceProvider
     {
       
         $path = $request->path();
-        View::share('path', $path);
-        View::share('auth', false);
+        $menu = Menu::handler('nav', ['id' => 'nav']); 
+
+// items
+$menu
+    ->add('/', 'Главная')
+    ->add('article/add', 'Новая статья')
+
+    ->raw(null, null, ['class' => 'divider'])
+    ->add('', 'Админ', Menu::items() 
+        ->prefixParents() 
+        ->add('/admin/articles', 'Статьи') // with prefix: /folders/urgent
+        ->add('/admin/users', 'Пользователи')
+    );
+
+// styling
+$menu
+    ->addClass('nav navbar-nav')
+    ->addId()
+    ->getItemsByContentType(Menu\Items\Contents\Link::class)
+    ->map(function($item) {
+        if ( $item->isActive() )  {
+            $item->addClass('active');
+        }
+    });
+        View::share('menu', $menu);
 
 
     }
