@@ -1,7 +1,8 @@
 <?php
 
 
-// Функция для определения, авторизован ли пользователь
+//Полученик адреса
+
 function path()	
 {
 	$request = resolve('Illuminate\Http\Request');
