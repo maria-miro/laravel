@@ -166,7 +166,7 @@ return [
         /*
          * Package Service Providers...
          */
-
+        Menu\MenuServiceProvider::class,
         //
 
         /*
@@ -225,6 +225,7 @@ return [
         'URL' => Illuminate\Support\Facades\URL::class,
         'Validator' => Illuminate\Support\Facades\Validator::class,
         'View' => Illuminate\Support\Facades\View::class,
+        'Menu' => Menu\Menu::class,
 
     ],
 
