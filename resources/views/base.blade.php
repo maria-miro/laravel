@@ -56,33 +56,8 @@
 
         <div class="row">                       
 
-                <ul id="nav" class="nav">
-                    <li  
-                    @if ($path == "/" )
-                        class = "current"
-                    @endif
-                    ><a href="/">Главная</a></li>
-                    <li 
-                    @if ($path == "article/add" )
-                        class = "current"
-                    @endif
-                    ><a href="/article/add">Новая статья</a></li>
-                    <li>
-                    @if ($auth)
-                       <a href="/logout">Выйти</a> 
-                    @else
-                        <a href="/login">Войти</a> 
-                    @endif
-                    </li> 
-                    <li class="has-children"><a href="">Админ</a>
-                            <ul>
-                         <li><a href="/admin/articles">Редактировать статьи</a></li>
-                         <li><a href="/admin/users">Редактировать пользователей</a></li>                      
-                      </ul>
-                    </li>    
-
-
-                </ul> <!-- end #nav -->     
+                {!! $menu !!}
+                <!-- end #nav -->     
              
             
 

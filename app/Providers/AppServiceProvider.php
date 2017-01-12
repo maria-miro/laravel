@@ -16,12 +16,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(Request $request)
     {
-      
-        $path = $request->path();
-        View::share('path', $path);
-        View::share('auth', false);
-
-
+    
     }
 
     /**
