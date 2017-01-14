@@ -9,12 +9,12 @@ use Illuminate\Support\Facades\View;
 class LoginController extends Controller
 {
     
-    public function getLogin()
+    public function login()
     {
     	return view('login');		
     }
 
-    public function postLogin()
+    public function loginPost()
     {
     	// добавить валидацию, функционал
         session(['auth' => true]);

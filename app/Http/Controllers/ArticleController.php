@@ -37,12 +37,12 @@ class ArticleController extends Controller
         }
     }
 
-    public function getAdd()
+    public function addArticle()
     {
         return view('article.add');
     }   
 
-    public function postAdd()
+    public function addArticlePost()
     {
     	$title = $this->request->input('title');
     	$content = $this->request->input('content');
@@ -61,7 +61,7 @@ class ArticleController extends Controller
         }     		
     }
 
-    public function getEdit($id)
+    public function editArticle($id)
     {
         // Получение title content из модели по $id
         $title = '111';
@@ -73,7 +73,7 @@ class ArticleController extends Controller
                  ]); 
     }   
 
-    public function postEdit($id)
+    public function editArticlePost($id)
     {
         $title = $this->request->input('title');
         $content = $this->request->input('content');
@@ -94,7 +94,7 @@ class ArticleController extends Controller
         }           
     }
 
-    public function getDelete($id)
+    public function deleteArticle($id)
     {
         // Проверка, что такая статья существует
         $articleExists = true;
@@ -108,7 +108,7 @@ class ArticleController extends Controller
         }
     }
 
-    public function postDelete($id)
+    public function deleteArticlePost($id)
     {
         if ($this->request->input('cancel')) {
             return redirect()->to("article/$id");

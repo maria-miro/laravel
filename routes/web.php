@@ -21,25 +21,25 @@ Route::group(['prefix' => 'article'], function(){
 			->where('id', '[0-9]+');
 
 	Route::get('/add', 
-			'ArticleController@getAdd');
+			'ArticleController@addArticle');
 
 	Route::post('/add', 
-			'ArticleController@postAdd');
+			'ArticleController@addArticlePost');
 
 	Route::get('/{id}/edit', 
-			'ArticleController@getEdit')
+			'ArticleController@editArticle')
 			->where('id', '[0-9]+');
 
 	Route::post('/{id}/edit', 
-			'ArticleController@postEdit')
+			'ArticleController@editArticlePost')
 			->where('id', '[0-9]+');
 
 	Route::get('/{id}/delete', 
-			'ArticleController@getDelete')
+			'ArticleController@deleteArticle')
 			->where('id', '[0-9]+');
 
 	Route::post('/{id}/delete', 
-			'ArticleController@postDelete')
+			'ArticleController@deleteArticlePost')
 			->where('id', '[0-9]+');
 });
 
@@ -52,9 +52,9 @@ Route::group(['prefix' => 'admin',
 });
 
 
-Route::get('/login', 'LoginController@getLogin');
+Route::get('/login', 'LoginController@login');
 
-Route::post('/login', 'LoginController@postLogin');
+Route::post('/login', 'LoginController@loginPost');
 
 Route::get('/logout', 'LoginController@logout');
 
