@@ -9,22 +9,22 @@ use Illuminate\Support\Facades\View;
 class LoginController extends Controller
 {
     
-    public function GetLogin()
+    public function login()
     {
     	return view('login');		
     }
 
-    public function PostLogin()
+    public function loginPost()
     {
     	// добавить валидацию, функционал
-    
-    	  return redirect()->home();
-	
+        session(['auth' => true]);
+    	return redirect()->home();
     }
 
-    public function Logout()
+    public function logout()
     {
     	// добавить функционал
+        session(['auth' => false]);
     	return redirect()->home();
     }
 }

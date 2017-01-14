@@ -15,18 +15,16 @@ class ArticleController extends Controller
 	['id' => 4, 'title' =>  'Статья 4', 'content' => 'Текст статьи 4']
     			];
     //
-    public function List()
+    public function showList()
     {
         return view('article.list' , ['articles' => $this->articles]);		
     }
 
-    public function View($id)
+    public function showOne($id)
     {
-
     	$article = [];
     	foreach ($this->articles as $one) {
     		if ($one['id'] == $id) {
-   
     			$article = $one;
     			break;
     		}
@@ -39,12 +37,12 @@ class ArticleController extends Controller
         }
     }
 
-    public function GetAdd()
+    public function addArticle()
     {
         return view('article.add');
     }   
 
-    public function PostAdd()
+    public function addArticlePost()
     {
     	$title = $this->request->input('title');
     	$content = $this->request->input('content');
@@ -63,8 +61,7 @@ class ArticleController extends Controller
         }     		
     }
 
-
-    public function GetEdit($id)
+    public function editArticle($id)
     {
         // Получение title content из модели по $id
         $title = '111';
@@ -76,7 +73,7 @@ class ArticleController extends Controller
                  ]); 
     }   
 
-    public function PostEdit($id)
+    public function editArticlePost($id)
     {
         $title = $this->request->input('title');
         $content = $this->request->input('content');
@@ -85,7 +82,6 @@ class ArticleController extends Controller
         $articleAdded = true;
          
         if ($articleAdded){ 
-
             $message =  "Будет отредактирована статья id $id c названием \"$title\" Текст статьи: $content";
             return view('message' ,
                 ['message' => $message]);  
@@ -98,7 +94,7 @@ class ArticleController extends Controller
         }           
     }
 
-    public function GetDelete($id)
+    public function deleteArticle($id)
     {
         // Проверка, что такая статья существует
         $articleExists = true;
@@ -112,7 +108,7 @@ class ArticleController extends Controller
         }
     }
 
-    public function PostDelete($id)
+    public function deleteArticlePost($id)
     {
         if ($this->request->input('cancel')) {
             return redirect()->to("article/$id");
@@ -121,12 +117,11 @@ class ArticleController extends Controller
         if ($this->request->input('confirm')){
 
         // временная переменная до подключения модели
-        $articleDeleted = true;
-        
-        $message = $articleDeleted ? 'Статья успешно удалена' : 'Не удалось удалить статью';
-        return view('message' ,
+            $articleDeleted = true;
+            
+            $message = $articleDeleted ? 'Статья успешно удалена' : 'Не удалось удалить статью';
+            return view('message' ,
                 ['message' => $message]); 
-
         } 
     }
 }

@@ -58,17 +58,17 @@
 
                 <ul id="nav" class="nav">
                     <li  
-                    @if ($path == "/" )
+                    @if (path() == "/" )
                         class = "current"
                     @endif
                     ><a href="/">Главная</a></li>
                     <li 
-                    @if ($path == "article/add" )
+                    @if (path() == "article/add" )
                         class = "current"
                     @endif
                     ><a href="/article/add">Новая статья</a></li>
                     <li>
-                    @if ($auth)
+                    @if (session('auth'))
                        <a href="/logout">Выйти</a> 
                     @else
                         <a href="/login">Войти</a> 

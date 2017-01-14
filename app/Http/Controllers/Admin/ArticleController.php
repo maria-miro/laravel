@@ -16,7 +16,7 @@ class ArticleController extends Controller
 	['id' => 4, 'title' =>  'Статья 4', 'content' => 'Текст статьи 4']
     			];
     //
-    public function Editor()
+    public function editAllArticles()
     {
         return view('admin.articles' , ['articles' => $this->articles]);		
     }
