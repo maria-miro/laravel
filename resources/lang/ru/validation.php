@@ -110,6 +110,9 @@ return [
         'attribute-name' => [
             'rule-name' => 'custom-message',
         ],
+        'password2' => [
+            'same:password' => 'Пароли должны совпадать',
+        ],
     ],
 
     /*
@@ -130,7 +133,11 @@ return [
     */
 
     'attributes'           => [
-        //
+        'email' => 'Электронный адрес',
+        'name' => 'Имя пользователя',
+        'password' => 'Пароль',
+        'password2' => 'Пароль',
+
     ],
 
 ];
