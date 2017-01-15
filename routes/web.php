@@ -58,6 +58,9 @@ Route::post('/login', 'LoginController@loginPost');
 
 Route::get('/logout', 'LoginController@logout');
 
+Route::get('/register', 'AuthController@register');
+Route::post('/register', 'AuthController@registerPost');
+
 
 
 
