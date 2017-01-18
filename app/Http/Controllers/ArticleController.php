@@ -14,7 +14,7 @@ class ArticleController extends Controller
 	['id' => 3, 'title' =>  'Статья 3', 'content' => 'Текст статьи 3'],
 	['id' => 4, 'title' =>  'Статья 4', 'content' => 'Текст статьи 4']
     			];
-    //
+
     public function showList()
     {
         return view('article.list' , ['articles' => $this->articles]);		

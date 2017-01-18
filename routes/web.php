@@ -14,6 +14,10 @@
 Route::get('/', 'ArticleController@showList')
 			->name('home')	;
 
+Route::get('/help', function () {
+    return dump(session());
+});
+
 Route::group(['prefix' => 'article'], function(){
 
 	Route::get('/{id}',

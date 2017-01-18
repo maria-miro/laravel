@@ -68,8 +68,8 @@
                     @endif
                     ><a href="/article/add">Новая статья</a></li>
                     <li>
-                    @if (session('auth'))
-                       <a href="/logout">Выйти</a> 
+                    @if (Auth::check())
+                       {{Auth::user()->name}} <a href="/logout">Выйти</a> 
                     @else
                         <a href="/login">Войти</a> 
                     @endif
@@ -79,7 +79,8 @@
                          <li><a href="/admin/articles">Редактировать статьи</a></li>
                          <li><a href="/admin/users">Редактировать пользователей</a></li>                      
                       </ul>
-                    </li>    
+                    </li> 
+                    <li><a href="/help">Help</a></li>   
 
 
                 </ul> <!-- end #nav -->     
