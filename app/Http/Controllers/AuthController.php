@@ -12,10 +12,8 @@ class AuthController extends Controller
     	return view('auth.register', []);
     }
 
-        public function registerPost()
+    public function registerPost()
     {
-    	// trim();
-    	// strtolower();
     	$this->validate($this->request, [
     		'email' => 'required|email|unique:users|max:255',
     		'name' => 'required|max:255',
@@ -30,8 +28,6 @@ class AuthController extends Controller
     		'created_at' => \Carbon\Carbon::createFromTimestamp(time())->format('Y-m-d H:i:s'),
     		'updated_at' => \Carbon\Carbon::createFromTimestamp(time())->format('Y-m-d H:i:s'),
     	]); 
-
-
 
     	return 'ok';
     }

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class ArticleController extends Controller
 {
@@ -22,14 +23,7 @@ class ArticleController extends Controller
 
     public function showOne($id)
     {
-    	$article = [];
-    	foreach ($this->articles as $one) {
-    		if ($one['id'] == $id) {
-    			$article = $one;
-    			break;
-    		}
-    	}
-
+    	$article = DB::table('articles')->where('id', $id)->first();
         if (!empty($article)) {
             return view('article.one' , ['article' => $article]);       
         } else {
@@ -44,21 +38,20 @@ class ArticleController extends Controller
 
     public function addArticlePost()
     {
-    	$title = $this->request->input('title');
-    	$content = $this->request->input('content');
-       
-        // временная переменная до подключения валидатора и модели
-        $articleAdded = false;
-         
-    	if ($articleAdded){	
+        $this->validate($this->request, [
+            'title' => 'required|min:5|max:150|',
+            'content' => 'required|min:10',
+         ]);
 
-            $message =  "Будет добавлена статья c названием \"$title\" Текст статьи: $content";
-            return view('message' ,
-                ['message' => $message]);  
-
-        } else {
-            return redirect()->back()->withInput();
-        }     		
+        $id  = DB::table('articles')->insertGetId([
+            'title' => $this->request->input('title'),
+            'content' => $this->request->input('content'),
+            'user_id' => auth()->user()->id,
+            'created_at' => \Carbon\Carbon::createFromTimestamp(time())->format('Y-m-d H:i:s'),
+            'updated_at' => \Carbon\Carbon::createFromTimestamp(time())->format('Y-m-d H:i:s'),
+        ]);       
+        
+        return redirect()->route('article.one', ['id' => $id])->with('msg','ok');   		
     }
 
     public function editArticle($id)
