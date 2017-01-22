@@ -5,12 +5,9 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Lang;
-
 
 class LoginController extends Controller
-{
-    
+{   
     public function login()
     {
     	return view('login');		
@@ -25,21 +22,15 @@ class LoginController extends Controller
             ], $remember)) {
             return redirect()->intended();
         } else {
-           
             return redirect()->back()
                 ->withInput($this->request->only('email', 'remember'))
-                ->withErrors([
-                    'email' => Lang::get('auth.failed'),
-            ]);
-
+                ->withErrors(['email' => trans('auth.failed')]);
         }
-
     }
 
     public function logout()
     {
-    	// добавить функционал
         Auth::logout();
-    	return redirect()->home();
+    	return redirect()->route('login');
     }
 }

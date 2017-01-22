@@ -11,8 +11,7 @@
 |
 */
 
-Route::get('/', 'ArticleController@showList')
-	->name('home')	;
+Route::get('/', 'ArticleController@showList')->name('home')	;
 
 Route::get('/help', function () {
     return dump(auth()->user()->id);
@@ -22,23 +21,29 @@ Route::group(['prefix' => 'article'], function(){
 
 	Route::get('/{id}','ArticleController@showOne')
 		->where('id', '[0-9]+')->name('article.one');
+
 	Route::get('/add', 'ArticleController@addArticle')
 		->middleware('auth')->name('article.add');
+
 	Route::post('/add', 'ArticleController@addArticlePost')
 		->middleware('auth')->name('article.addPost');
+
 	Route::get('/{id}/edit', 'ArticleController@editArticle')
-		->where('id', '[0-9]+')->name('article.edit');
+		->where('id', '[0-9]+')->middleware('auth')->name('article.edit');
+
 	Route::post('/{id}/edit', 'ArticleController@editArticlePost')
-		->where('id', '[0-9]+')->name('article.editPost');
+		->where('id', '[0-9]+')->middleware('auth')->name('article.editPost');
+
 	Route::get('/{id}/delete', 'ArticleController@deleteArticle')
-		->where('id', '[0-9]+')->name('article.delete');
+		->where('id', '[0-9]+')->middleware('auth')->name('article.delete');
+
 	Route::post('/{id}/delete', 'ArticleController@deleteArticlePost')
-		->where('id', '[0-9]+')->name('article.deletePost');
+		->where('id', '[0-9]+')->middleware('auth')->name('article.deletePost');
 });
 
 Route::group(['prefix' => 'admin', 'namespace' => 'Admin'], function(){
-		Route::get('/articles', 'ArticleController@editAllArticles');	 	
-		Route::get('/users', 'UserController@editAllUsers');	 	
+		Route::get('/articles', 'ArticleController@editAllArticles')->name('admin.articles');	 	
+		Route::get('/users', 'UserController@editAllUsers')->name('admin.users');	 	
 });
 
 Route::get('/login', 'LoginController@login')->name('login');

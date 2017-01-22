@@ -9,7 +9,7 @@ class AuthController extends Controller
 {
     public function register()
     {
-    	return view('auth.register', []);
+    	return view('auth.register');
     }
 
     public function registerPost()
@@ -21,7 +21,7 @@ class AuthController extends Controller
     		'password2' =>'required|same:password',
     	 ]);
 
-    	DB::table('users')->insert([
+    	$result = DB::table('users')->insert([
     		'email' => $this->request->input('email'),
     		'name' => $this->request->input('name'),
     		'password' => bcrypt($this->request->input('password')),
@@ -29,7 +29,14 @@ class AuthController extends Controller
     		'updated_at' => \Carbon\Carbon::createFromTimestamp(time())->format('Y-m-d H:i:s'),
     	]); 
 
-    	return 'ok';
+    	if ($result) {
+            return redirect()->home()
+                ->with('message', trans('auth.registed'));
+        } else {
+            return redirect()->back()
+                ->withInput($this->request->only('email', 'name'))
+                ->with('message', trans('auth.not_registed'));
+        }          
     }
 
 }

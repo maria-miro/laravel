@@ -7,18 +7,10 @@ use Illuminate\Support\Facades\DB;
 
 class ArticleController extends Controller
 {
-    
-    // Временный массив до подключения базы
-	protected $articles = [
-	['id' => 1, 'title' =>  'Статья 1', 'content' => 'Текст статьи 1'],
-	['id' => 2, 'title' =>  'Статья 2', 'content' => 'Текст статьи 2'],
-	['id' => 3, 'title' =>  'Статья 3', 'content' => 'Текст статьи 3'],
-	['id' => 4, 'title' =>  'Статья 4', 'content' => 'Текст статьи 4']
-    			];
-
     public function showList()
     {
-        return view('article.list' , ['articles' => $this->articles]);		
+        $articles = DB::table('articles')->orderBy('created_at', 'desc')->get();
+        return view('article.list' , ['articles' => $articles]);		
     }
 
     public function showOne($id)
@@ -42,79 +34,84 @@ class ArticleController extends Controller
             'title' => 'required|min:5|max:150|',
             'content' => 'required|min:10',
          ]);
-
         $id  = DB::table('articles')->insertGetId([
             'title' => $this->request->input('title'),
             'content' => $this->request->input('content'),
             'user_id' => auth()->user()->id,
             'created_at' => \Carbon\Carbon::createFromTimestamp(time())->format('Y-m-d H:i:s'),
             'updated_at' => \Carbon\Carbon::createFromTimestamp(time())->format('Y-m-d H:i:s'),
-        ]);       
-        
-        return redirect()->route('article.one', ['id' => $id])->with('msg','ok');   		
+        ]);  
+        if ($id) {
+            return redirect()->route('article.one', ['id' => $id])
+                ->with('message', trans('articles.added'));
+        } else {
+            return redirect()->back()->withInput()
+                ->with('message', trans('articles.not_added'));
+        }     
     }
 
     public function editArticle($id)
     {
-        // Получение title content из модели по $id
-        $title = '111';
-        $content = '222';
+        $article = DB::table('articles')->where('id', $id)->first();
+  
+        if (empty($article)){
+            abort(404);
+        }
 
         return view('article.edit', [
-                 'title' => $title,  
-                 'content' => $content,  
+                 'title' => $article->title,  
+                 'content' => $article->content,  
                  ]); 
     }   
 
     public function editArticlePost($id)
-    {
-        $title = $this->request->input('title');
-        $content = $this->request->input('content');
-       
-        // временная переменная до подключения валидатора и модели
-        $articleAdded = true;
-         
-        if ($articleAdded){ 
-            $message =  "Будет отредактирована статья id $id c названием \"$title\" Текст статьи: $content";
-            return view('message' ,
-                ['message' => $message]);  
+    {  
+        $this->validate($this->request, [
+            'title' => 'required|min:5|max:150|',
+            'content' => 'required|min:10',
+         ]);
 
+        $result  = DB::table('articles')->where('id', $id)->update([
+            'title' => $this->request->input('title'),
+            'content' => $this->request->input('content'),
+            'updated_at' => \Carbon\Carbon::createFromTimestamp(time())->format('Y-m-d H:i:s'),
+        ]);           
+        if ($result) {
+            return redirect()->route('article.one', ['id' => $id])
+                ->with('message', trans('articles.edited'));
         } else {
-            return view('article.add', [
-                 'title' => $title,  
-                 'content' => $content,  
-                 ]);  
-        }           
+            return redirect()->back()->withInput()
+                ->with('message', trans('articles.not_edited'));
+        }          
     }
 
     public function deleteArticle($id)
     {
-        // Проверка, что такая статья существует
-        $articleExists = true;
+       $article = DB::table('articles')->where('id', $id)->first();
 
-        if ($articleExists) {
-            return view('article.deleteConfirm');
-        } else {
-            $message =  "Такой статьи не существует";
-            return view('message' ,
-                ['message' => $message]); 
+        if (empty($article)){
+            abort(404);
         }
+        
+        return view('article.deleteConfirm');
     }
 
     public function deleteArticlePost($id)
-    {
+    {    
         if ($this->request->input('cancel')) {
-            return redirect()->to("article/$id");
+            return redirect()->route('article.one', ['id' => $id]);
         } 
         
         if ($this->request->input('confirm')){
+            $result = DB::table('articles')->where('id', $id)->delete();
 
-        // временная переменная до подключения модели
-            $articleDeleted = true;
-            
-            $message = $articleDeleted ? 'Статья успешно удалена' : 'Не удалось удалить статью';
-            return view('message' ,
-                ['message' => $message]); 
+            if ($result) {
+                return redirect()->home()
+                    ->with('message', trans('articles.deleted'));
+            } else {
+                return redirect()->route('article.one', ['id' => $id])
+                    ->with('message', trans('articles.not_deleted'));
+            }
         } 
     }
 }
