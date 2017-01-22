@@ -13,10 +13,6 @@
 
 Route::get('/', 'ArticleController@showList')->name('home')	;
 
-Route::get('/help', function () {
-    return dump(auth()->user()->id);
-});
-
 Route::group(['prefix' => 'article'], function(){
 
 	Route::get('/{id}','ArticleController@showOne')
@@ -46,9 +42,9 @@ Route::group(['prefix' => 'admin', 'namespace' => 'Admin'], function(){
 		Route::get('/users', 'UserController@editAllUsers')->name('admin.users');	 	
 });
 
-Route::get('/login', 'LoginController@login')->name('login');
-Route::post('/login', 'LoginController@loginPost')->name('loginPost');
-Route::get('/logout', 'LoginController@logout')->name('logout');
+Route::get('/login', 'AuthController@login')->name('login');
+Route::post('/login', 'AuthController@loginPost')->name('loginPost');
+Route::get('/logout', 'AuthController@logout')->name('logout');
 Route::get('/register', 'AuthController@register')->name('register');
 Route::post('/register', 'AuthController@registerPost')->name('registerPost');
 

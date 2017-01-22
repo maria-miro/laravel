@@ -2,21 +2,22 @@
 
 @section ('content')
 
-@if (count($errors) > 0)
-    <div class="alert alert-danger">
-        <ul>
-            @foreach ($errors->all() as $error)
-                <li>{{ $error }}</li>
-            @endforeach
-        </ul>
-    </div>
-@endif
     <form method="post">
          {{ csrf_field() }}
 
-        Логин<br>
+        Логин/email<br>
+         @foreach ($errors->get('email') as $message)
+            <ul>
+                <li>{{ $message }}</li>
+            </ul>
+        @endforeach
         <input type="email" name="email" value = "{{old('email')}}"><br>
         Пароль<br>
+        @foreach ($errors->get('password') as $message)
+            <ul>
+                <li>{{ $message }}</li>
+            </ul>
+        @endforeach
         <input type="password" name="password" value = ""><br>
         <input type="checkbox" name="remember" value = "{{old('remember')}}">Запомнить меня<br>
         <input type="submit" value="Войти"><br>

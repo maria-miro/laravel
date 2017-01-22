@@ -6,7 +6,7 @@
     @forelse ($articles as $article)
         <a href="{{route('article.one', ['id' => $article->id])}}">{{$article->title}}</a><hr>
     @empty
-        <p>{{Lang::get('articles.no_list')}}</p>
+        <p>{{trans('articles.no_list')}}</p>
     @endforelse
 
  @endsection   

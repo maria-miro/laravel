@@ -52,29 +52,28 @@
        <nav id="nav-wrap"> 
 
         <a class="mobile-btn" href="#nav-wrap" title="Show navigation">Show Menu</a>
-           <a class="mobile-btn" href="#" title="Hide navigation">Hide Menu</a>
+        <a class="mobile-btn" href="#" title="Hide navigation">Hide Menu</a>
 
         <div class="row">                       
 
                 <ul id="nav" class="nav">
                     <li><a href="{{route('home')}}">Главная</a></li>
                     <li><a href="{{route('article.add')}}">Новая статья</a></li>
-                    <li>
+                   
                     @if (Auth::check())
-                       {{Auth::user()->name}} <a href="{{route('logout')}}">Выйти</a> 
+                        <li>{{Auth::user()->name}} <a href="{{route('logout')}}">Выйти</a> </li> 
                     @else
-                        <a href="{{route('login')}}">Войти</a> 
+                        <li><a href="{{route('login')}}">Войти</a></li>
+                         <li><a href="{{route('register')}}">Зарегистрироваться</a></li>
                     @endif
-                    </li> 
-                    <li class="has-children"><a href="">Админ</a>
+                    
+                    <li class="has-children"><a href="">Админ
                             <ul>
                          <li><a href="{{route('admin.articles')}}">Редактировать статьи</a></li>
                          <li><a href="{{route('admin.users')}}">Редактировать пользователей</a></li>                      
                       </ul>
                     </li> 
-                    <li><a href="/help">Help</a></li>   
-
-
+                
                 </ul> <!-- end #nav -->     
              
             
