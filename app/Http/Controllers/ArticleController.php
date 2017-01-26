@@ -4,18 +4,40 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use App\Article;
 
 class ArticleController extends Controller
 {
     public function showList()
     {
-        $articles = DB::table('articles')->orderBy('created_at', 'desc')->get();
-        return view('article.list' , ['articles' => $articles]);		
+       // dump(Article::all()->chunk(4));
+        $articles = Article::all()->count();
+
+       // $articles = $articles->reject(function ($article) {
+       //      return $article->id > 7;
+       //  });
+        // Article::chunk(4,function ($articles) {
+        //     dump($articles);  
+        // });
+
+        // foreach (Article::where('id', '>', 6)->cursor() as $article) {
+        //     dump($article);
+
+        // $article = Article::find(2);
+        // $article = Article::findOrFail(1);
+        // $articles = Article::all()->count();
+
+
+    
+       dump($articles);
+
+        // $articles = Article::orderBy('created_at', 'desc')->get();
+        // return view('article.list' , ['articles' => $articles]);		
     }
 
     public function showOne($id)
     {
-    	$article = DB::table('articles')->where('id', $id)->first();
+    	$article = Article::where('id', $id)->first();
         if (!empty($article)) {
             return view('article.one' , ['article' => $article]);       
         } else {
@@ -34,13 +56,15 @@ class ArticleController extends Controller
             'title' => 'required|min:5|max:150|',
             'content' => 'required|min:10',
          ]);
-        $id  = DB::table('articles')->insertGetId([
-            'title' => $this->request->input('title'),
-            'content' => $this->request->input('content'),
-            'user_id' => auth()->user()->id,
-            'created_at' => \Carbon\Carbon::createFromTimestamp(time())->format('Y-m-d H:i:s'),
-            'updated_at' => \Carbon\Carbon::createFromTimestamp(time())->format('Y-m-d H:i:s'),
-        ]);  
+
+        $article = new Article;
+
+        $article->title = $this->request->input('title');
+        $article->content = $this->request->input('content');
+        $article->user_id = auth()->user()->id;
+        $article->save();
+        $id = $article->id;
+
         if ($id) {
             return redirect()->route('article.one', ['id' => $id])
                 ->with('message', trans('articles.added'));
@@ -52,11 +76,7 @@ class ArticleController extends Controller
 
     public function editArticle($id)
     {
-        $article = DB::table('articles')->where('id', $id)->first();
-  
-        if (empty($article)){
-            abort(404);
-        }
+        $article = Article::findOrFail($id);
 
         return view('article.edit', [
                  'title' => $article->title,  
@@ -71,11 +91,11 @@ class ArticleController extends Controller
             'content' => 'required|min:10',
          ]);
 
-        $result  = DB::table('articles')->where('id', $id)->update([
-            'title' => $this->request->input('title'),
-            'content' => $this->request->input('content'),
-            'updated_at' => \Carbon\Carbon::createFromTimestamp(time())->format('Y-m-d H:i:s'),
-        ]);           
+        $article = Article::find($id);
+        $article->title = $this->request->input('title');
+        $article->content = $this->request->input('content');
+        $result = $article->save();
+          
         if ($result) {
             return redirect()->route('article.one', ['id' => $id])
                 ->with('message', trans('articles.edited'));
@@ -87,12 +107,8 @@ class ArticleController extends Controller
 
     public function deleteArticle($id)
     {
-       $article = DB::table('articles')->where('id', $id)->first();
+        $article = Article::findOrFail($id);
 
-        if (empty($article)){
-            abort(404);
-        }
-        
         return view('article.deleteConfirm');
     }
 
@@ -103,7 +119,9 @@ class ArticleController extends Controller
         } 
         
         if ($this->request->input('confirm')){
-            $result = DB::table('articles')->where('id', $id)->delete();
+            $result = Article::destroy($id);
+            dump($result);
+            die;
 
             if ($result) {
                 return redirect()->home()
