@@ -4,9 +4,9 @@
     <h1>Список новостей</h1><hr>
 
     @forelse ($articles as $article)
-        <a href="/article/<?=$article['id']?>"><?=$article['title']?></a><hr>
+        <a href="{{route('article.one', ['id' => $article->id])}}">{{$article->title}}</a><hr>
     @empty
-        <p>Нет новостей для отображения</p>
+        <p>{{trans('articles.no_list')}}</p>
     @endforelse
 
  @endsection   

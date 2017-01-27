@@ -52,36 +52,28 @@
        <nav id="nav-wrap"> 
 
         <a class="mobile-btn" href="#nav-wrap" title="Show navigation">Show Menu</a>
-           <a class="mobile-btn" href="#" title="Hide navigation">Hide Menu</a>
+        <a class="mobile-btn" href="#" title="Hide navigation">Hide Menu</a>
 
         <div class="row">                       
 
                 <ul id="nav" class="nav">
-                    <li  
-                    @if (path() == "/" )
-                        class = "current"
-                    @endif
-                    ><a href="/">Главная</a></li>
-                    <li 
-                    @if (path() == "article/add" )
-                        class = "current"
-                    @endif
-                    ><a href="/article/add">Новая статья</a></li>
-                    <li>
-                    @if (session('auth'))
-                       <a href="/logout">Выйти</a> 
+                    <li><a href="{{route('home')}}">Главная</a></li>
+                    <li><a href="{{route('article.add')}}">Новая статья</a></li>
+                   
+                    @if (Auth::check())
+                        <li>{{Auth::user()->name}} <a href="{{route('logout')}}">Выйти</a> </li> 
                     @else
-                        <a href="/login">Войти</a> 
+                        <li><a href="{{route('login')}}">Войти</a></li>
+                         <li><a href="{{route('register')}}">Зарегистрироваться</a></li>
                     @endif
-                    </li> 
-                    <li class="has-children"><a href="">Админ</a>
+                    
+                    <li class="has-children"><a href="">Админ
                             <ul>
-                         <li><a href="/admin/articles">Редактировать статьи</a></li>
-                         <li><a href="/admin/users">Редактировать пользователей</a></li>                      
+                         <li><a href="{{route('admin.articles')}}">Редактировать статьи</a></li>
+                         <li><a href="{{route('admin.users')}}">Редактировать пользователей</a></li>                      
                       </ul>
-                    </li>    
-
-
+                    </li> 
+                
                 </ul> <!-- end #nav -->     
              
             
@@ -95,6 +87,12 @@
     <div id="content-wrap">
 
         <div class="row section-head">
+            
+            @if (Session::has('message'))
+              <div id="message" class="twelve columns add-bottom">
+                {{Session::get('message')}}     
+              </div> 
+            @endif
 
             <div id="main" class="twelve columns">
  
