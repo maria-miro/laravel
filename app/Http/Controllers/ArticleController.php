@@ -4,35 +4,14 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-use App\Article;
+use App\Http\Models\Article;
 
 class ArticleController extends Controller
 {
     public function showList()
     {
-       // dump(Article::all()->chunk(4));
-        $articles = Article::all()->count();
-
-       // $articles = $articles->reject(function ($article) {
-       //      return $article->id > 7;
-       //  });
-        // Article::chunk(4,function ($articles) {
-        //     dump($articles);  
-        // });
-
-        // foreach (Article::where('id', '>', 6)->cursor() as $article) {
-        //     dump($article);
-
-        // $article = Article::find(2);
-        // $article = Article::findOrFail(1);
-        // $articles = Article::all()->count();
-
-
-    
-       dump($articles);
-
-        // $articles = Article::orderBy('created_at', 'desc')->get();
-        // return view('article.list' , ['articles' => $articles]);		
+        $articles = Article::orderBy('created_at', 'desc')->get();
+        return view('article.list' , ['articles' => $articles]);		
     }
 
     public function showOne($id)
@@ -57,12 +36,11 @@ class ArticleController extends Controller
             'content' => 'required|min:10',
          ]);
 
-        $article = new Article;
-
-        $article->title = $this->request->input('title');
-        $article->content = $this->request->input('content');
-        $article->user_id = auth()->user()->id;
-        $article->save();
+         $article = Article::create([
+            'title' => $this->request->input('title'),
+            'content' => $this->request->input('content'),
+            'user_id' => auth()->user()->id,
+            ]); 
         $id = $article->id;
 
         if ($id) {
@@ -120,8 +98,6 @@ class ArticleController extends Controller
         
         if ($this->request->input('confirm')){
             $result = Article::destroy($id);
-            dump($result);
-            die;
 
             if ($result) {
                 return redirect()->home()
