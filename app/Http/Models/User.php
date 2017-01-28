@@ -12,4 +12,9 @@ class User extends Model
      * @var array
      */
     protected $guarded = ['id','remember_token','created_at','updated_at'];
+
+    public function articles()
+    {
+        return $this->hasMany('App\Http\Models\Article');
+    }
 }

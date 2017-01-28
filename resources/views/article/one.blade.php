@@ -8,7 +8,8 @@
 			{{$article->title}}
 		</h2>
         <p >
-        	 {{$article->content}}
+        	 {{$article->content}} <br>
+        	 <i>{{$article->user->name}}</i>
        	</p>
 	@if (Auth::check())
 	<form>
