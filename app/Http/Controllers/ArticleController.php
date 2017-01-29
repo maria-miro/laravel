@@ -10,18 +10,14 @@ class ArticleController extends Controller
 {
     public function showList()
     {
-        $articles = Article::orderBy('created_at', 'desc')->get();
+        $articles = Article::orderBy('updated_at', 'desc')->get();
         return view('article.list' , ['articles' => $articles]);		
     }
 
     public function showOne($id)
     {
-    	$article = Article::where('id', $id)->first();
-        if (!empty($article)) {
-            return view('article.one' , ['article' => $article]);       
-        } else {
-            abort(404);
-        }
+    	$article = Article::where('id', $id)->firstOrFail();
+        return view('article.one' , ['article' => $article]);       
     }
 
     public function addArticle()
@@ -69,10 +65,10 @@ class ArticleController extends Controller
             'content' => 'required|min:10',
          ]);
 
-        $article = Article::find($id);
-        $article->title = $this->request->input('title');
-        $article->content = $this->request->input('content');
-        $result = $article->save();
+        $result = Article::find($id)->update([
+            'title' => $this->request->input('title'),
+            'content' => $this->request->input('content'),
+            ]);
           
         if ($result) {
             return redirect()->route('article.one', ['id' => $id])
@@ -86,7 +82,6 @@ class ArticleController extends Controller
     public function deleteArticle($id)
     {
         $article = Article::findOrFail($id);
-
         return view('article.deleteConfirm');
     }
 

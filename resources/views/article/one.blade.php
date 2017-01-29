@@ -9,7 +9,7 @@
 		</h2>
         <p >
         	 {{$article->content}} <br>
-        	 <i>{{$article->user->name}}</i>
+        	 <i>Автор статьи: {{$article->user->name}}</i>
        	</p>
 	@if (Auth::check())
 	<form>
