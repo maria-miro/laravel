@@ -1,4 +1,4 @@
-@extends ('base')
+@extends ('layouts.base')
 
 @section ('content')
     <h2 class="entry-title">404 ошибка</h2>

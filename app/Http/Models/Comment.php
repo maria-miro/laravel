@@ -5,7 +5,8 @@ namespace App\Http\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class Article extends Model
+
+class Comment extends Model
 {
     use SoftDeletes;
 
@@ -28,8 +29,8 @@ class Article extends Model
         return $this->belongsTo('App\Http\Models\User');
     }
 
-    public function comments()
+     public function article()
     {
-        return $this->hasMany('App\Http\Models\Comment');
+        return $this->belongsTo('App\Http\Models\Article');
     }
 }
