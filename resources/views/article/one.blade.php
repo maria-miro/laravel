@@ -54,31 +54,34 @@
 ================================================== -->
 <div id="comments">
 
-   <h3>5 Comments</h3>
+@if (count($comments) > 0)   
+	<h3>Комментарии({{count($comments)}})</h3>
+@endif
 
    <!-- commentlist -->
    <ol class="commentlist">
+@forelse ($comments as $comment)
+
       <li class="depth-1">
-       <div class="avatar">
-            <img width="50" height="50" class="avatar" src="images/user-01.png" alt="">
-         </div>
          <div class="comment-content">
 
              <div class="comment-info">
-                <cite></cite>
-
-                <div class="comment-meta">
-                   <time class="comment-time" datetime="2014-07-12T23:05"></time>
-                </div>
+					<span>{{$comment->updated_at}}</span>
+					<span class="meta-sep">&bull;</span>
+					<span>{{$comment->user['name']}}</span>
              </div>
 
              <div class="comment-text">
-                <p></p>
+                <p>{{$comment->text}}</p>
              </div>
           </div>
       </li>
-   </ol> <!-- Commentlist End -->
 
+
+@empty
+    <h3>Нет комментариев</h3>
+@endforelse
+   </ol> <!-- Commentlist End -->
 
    <!-- respond -->
    <div class="respond">

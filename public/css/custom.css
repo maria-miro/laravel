@@ -11,8 +11,12 @@ li.error {
     color: #fff;
 }
 
+div.comment-info {
+    color: #ddd;
+}
 
-/* primary navigation
+
+/* auth navigation
 --------------------------------------------------------------------- */
 #auth-wrap, #auth-wrap ul, #auth-wrap li, #auth-wrap a {
     margin: 0;
@@ -88,6 +92,8 @@ ul#auth li.current > a {
    border-radius: 3px 3px 0 0;   
 }
 
-/
+li.depth-1 {
+    padding-left: 0px;
+}
 
 

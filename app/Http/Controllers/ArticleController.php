@@ -5,12 +5,13 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Http\Models\Article;
+use App\Http\Models\Comment;
 
 class ArticleController extends Controller
 {
     public function showList()
     {
-        $articles = Article::orderBy('updated_at', 'desc')->get();
+        $articles = Article::latest('updated_at')->get();
         return view('layouts.primary', [
             'page' => 'article.list',
             'title' => 'Главная',
@@ -22,10 +23,12 @@ class ArticleController extends Controller
     public function showOne($id)
     {
     	$article = Article::where('id', $id)->firstOrFail();
+        $comments = Comment::forArticle($id)->get();
         return view('layouts.primary', [
             'page' => 'article.one',
             'title' => $article->title,
             'article' => $article,
+            'comments' => $comments,
         ]);        
     }
 
