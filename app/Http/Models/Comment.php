@@ -33,9 +33,4 @@ class Comment extends Model
     {
         return $this->belongsTo('App\Http\Models\Article');
     }
-
-    public function scopeForArticle($query,$article_id)
-    {
-    	return $query->where('article_id', $article_id)->oldest();
-    }
 }

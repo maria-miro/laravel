@@ -23,7 +23,7 @@ class ArticleController extends Controller
     public function showOne($id)
     {
     	$article = Article::where('id', $id)->firstOrFail();
-        $comments = Comment::forArticle($id)->get();
+        $comments = $article->comments()->get();
         $tags = $article->tags()->get();
         return view('layouts.primary', [
             'page' => 'article.one',
