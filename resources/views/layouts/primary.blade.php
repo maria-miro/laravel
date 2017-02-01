@@ -1,7 +1,11 @@
-@extends('layouts.one-column')
+@extends('layouts.two-column')
 
-@section('center-column')
+@section('left-column')
     @include($page)
+@endsection
+
+@section('right-column')
+    @include('parts.sidebar')
 @endsection
 
 @section('bottom_scripts')
@@ -12,7 +16,7 @@
     <script>
         $(function () {
             if (window.BlogSettings.activeMenu) {
-                $('ul.navigation').find('.' + window.BlogSettings.activeMenu).addClass('active');
+                $('ul.nav').find('.' + window.BlogSettings.activeMenu).addClass('current');
             }
         });
     </script>
@@ -25,3 +29,6 @@
         };
     </script>
 @show
+
+
+

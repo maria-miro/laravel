@@ -11,18 +11,31 @@ class ArticleController extends Controller
     public function showList()
     {
         $articles = Article::orderBy('updated_at', 'desc')->get();
-        return view('article.list' , ['articles' => $articles]);		
+        return view('layouts.primary', [
+            'page' => 'article.list',
+            'title' => 'Главная',
+            'articles' => $articles,
+            'activeMenu' => 'home',
+        ]);		
     }
 
     public function showOne($id)
     {
     	$article = Article::where('id', $id)->firstOrFail();
-        return view('article.one' , ['article' => $article]);       
+        return view('layouts.primary', [
+            'page' => 'article.one',
+            'title' => $article->title,
+            'article' => $article,
+        ]);        
     }
 
     public function addArticle()
     {
-        return view('article.add');
+        return view('layouts.primary', [
+            'page' => 'article.add',
+            'title' => 'Новая статья',
+            'activeMenu' => 'add',
+        ]); 
     }   
 
     public function addArticlePost()
@@ -43,7 +56,7 @@ class ArticleController extends Controller
             return redirect()->route('article.one', ['id' => $id])
                 ->with('message', trans('articles.added'));
         } else {
-            return redirect()->back()->withInput()
+            return redirect()->back()
                 ->with('message', trans('articles.not_added'));
         }     
     }
@@ -52,10 +65,12 @@ class ArticleController extends Controller
     {
         $article = Article::findOrFail($id);
 
-        return view('article.edit', [
-                 'title' => $article->title,  
-                 'content' => $article->content,  
-                 ]); 
+        return view('layouts.primary', [
+            'page' => 'article.edit',
+            'title' => 'Редактирование статьи',
+            'article' => $article,
+            'activeMenu' => 'edit',
+        ]); 
     }   
 
     public function editArticlePost($id)
@@ -74,7 +89,7 @@ class ArticleController extends Controller
             return redirect()->route('article.one', ['id' => $id])
                 ->with('message', trans('articles.edited'));
         } else {
-            return redirect()->back()->withInput()
+            return redirect()->back()
                 ->with('message', trans('articles.not_edited'));
         }          
     }
@@ -82,7 +97,11 @@ class ArticleController extends Controller
     public function deleteArticle($id)
     {
         $article = Article::findOrFail($id);
-        return view('article.deleteConfirm');
+        return view('layouts.primary', [
+            'page' => 'article.deleteConfirm',
+            'title' => 'Удаление статьи',
+        ]); 
+
     }
 
     public function deleteArticlePost($id)

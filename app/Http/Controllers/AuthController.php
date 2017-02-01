@@ -12,7 +12,11 @@ class AuthController extends Controller
 {
     public function register()
     {
-        return view('auth.register');
+        return view('layouts.primary', [
+            'page' => 'auth.register',
+            'title' => 'Регистрация',
+            'activeMenu' => 'register',
+        ]); 
     }
 
     public function registerPost()
@@ -43,7 +47,11 @@ class AuthController extends Controller
 
     public function login()
     {
-        return view('auth.login');       
+        return view('layouts.primary', [
+            'page' => 'auth.login',
+            'title' => 'Авторизация',
+            'activeMenu' => 'login',
+        ]);        
     }
 
     public function loginPost()
