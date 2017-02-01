@@ -8,11 +8,6 @@
 		<div class="entry-meta">
 			<ul>
 				<li>{{$article->updated_at}}</li>
-				<span class="meta-sep">&bull;</span>							
-				<li>
-					<a href="#" title="" rel="category tag">tag</a>,
-					<a href="#" title="" rel="category tag">tag</a>  
-				</li>
 				<span class="meta-sep">&bull;</span>
 				<li>{{$article->user->name}}</li>
 			</ul>
@@ -38,15 +33,15 @@
 		onClick="location.href=&quot;{{route('article.delete', ['id' => $article->id])}}&quot;">
 	</form>
 	@endif
-	<p class="tags">
-         <span>Tagged in </span>:
-	      <a href="#">orci</a>, <a href="#">lectus</a>, <a href="#">varius</a>, <a href="#">turpis</a>
-    </p> 
 
-       <ul class="post-nav group">
-            <li class="prev"><a rel="prev" href="#"><strong>Previous Article</strong> Duis Sed Odio Sit Amet Nibh Vulputate</a></li>
-	         <li class="next"><a rel="next" href="#"><strong>Next Article</strong> Morbi Elit Consequat Ipsum</a></li>
-        </ul>
+	@if (count($tags)>0)	
+	<p class="tags">
+         <span>Тэги: </span>
+         @foreach ($tags as $tag)
+	      	<a href="">{{$tag->name}}   </a>  
+	      @endforeach
+    </p> 
+    @endif
 
 </article>
 

@@ -3,9 +3,9 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
 use App\Http\Models\Article;
 use App\Http\Models\Comment;
+use App\Http\Models\Tag;
 
 class ArticleController extends Controller
 {
@@ -24,19 +24,24 @@ class ArticleController extends Controller
     {
     	$article = Article::where('id', $id)->firstOrFail();
         $comments = Comment::forArticle($id)->get();
+        $tags = $article->tags()->get();
         return view('layouts.primary', [
             'page' => 'article.one',
             'title' => $article->title,
             'article' => $article,
             'comments' => $comments,
+            'tags' => $tags,
+
         ]);        
     }
 
     public function addArticle()
     {
+        $tags = Tag::all();
         return view('layouts.primary', [
             'page' => 'article.add',
             'title' => 'Новая статья',
+            'tags' => $tags,
             'activeMenu' => 'add',
         ]); 
     }   
@@ -53,9 +58,12 @@ class ArticleController extends Controller
             'content' => $this->request->input('content'),
             'user_id' => auth()->user()->id,
             ]); 
+
         $id = $article->id;
 
         if ($id) {
+            $article->tags()->attach($this->request->input('tags')); 
+            
             return redirect()->route('article.one', ['id' => $id])
                 ->with('message', trans('articles.added'));
         } else {
