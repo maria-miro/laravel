@@ -5,12 +5,18 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
+use App\Http\Models\User;
+
 
 class AuthController extends Controller
 {
     public function register()
     {
-    	return view('auth.register');
+        return view('layouts.primary', [
+            'page' => 'auth.register',
+            'title' => 'Регистрация',
+            'activeMenu' => 'register',
+        ]); 
     }
 
     public function registerPost()
@@ -22,15 +28,14 @@ class AuthController extends Controller
     		'password2' =>'required|same:password',
     	 ]);
 
-    	$result = DB::table('users')->insert([
-    		'email' => $this->request->input('email'),
-    		'name' => $this->request->input('name'),
-    		'password' => bcrypt($this->request->input('password')),
-    		'created_at' => \Carbon\Carbon::createFromTimestamp(time())->format('Y-m-d H:i:s'),
-    		'updated_at' => \Carbon\Carbon::createFromTimestamp(time())->format('Y-m-d H:i:s'),
-    	]); 
+        $user = User::create([
+            'email' => $this->request->input('email'),
+            'name' => $this->request->input('name'),
+            'password' => bcrypt($this->request->input('password')),
+            ]); 
+        $id = $user->id;
 
-    	if ($result) {
+    	if ($id) {
             return redirect()->home()
                 ->with('message', trans('auth.registed'));
         } else {
@@ -42,7 +47,11 @@ class AuthController extends Controller
 
     public function login()
     {
-        return view('auth.login');       
+        return view('layouts.primary', [
+            'page' => 'auth.login',
+            'title' => 'Авторизация',
+            'activeMenu' => 'login',
+        ]);        
     }
 
     public function loginPost()

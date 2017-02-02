@@ -1,12 +1,30 @@
-@extends ('base')
+@forelse ($articles as $article)
 
-@section ('content')
-    <h1>Список новостей</h1><hr>
+<article class="entry">
 
-    @forelse ($articles as $article)
-        <a href="{{route('article.one', ['id' => $article->id])}}">{{$article->title}}</a><hr>
-    @empty
-        <p>{{trans('articles.no_list')}}</p>
-    @endforelse
+	<header class="entry-header">
 
- @endsection   
+		<h2 class="entry-title">
+    		<a href="{{route('article.one', ['id' => $article->id])}}">{{$article->title}}</a><hr>
+		</h2> 				 
+	
+		<div class="entry-meta">
+			<ul>
+				<li>{{$article->updated_at}}</li>
+				<span class="meta-sep">&bull;</span>								
+				<li><a href="#" title="" rel="category tag">tag</a></li>
+				<span class="meta-sep">&bull;</span>
+				<li>{{$article->user->name}}</li>
+			</ul>
+		</div> 
+	 
+	</header> 
+	
+	<div class="entry-content">
+		<p></p>
+	</div> 
+
+</article> <!-- end entry -->
+@empty
+    <p>{{trans('articles.no_list')}}</p>
+@endforelse
