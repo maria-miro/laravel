@@ -11,13 +11,37 @@
 |
 */
 
-$factory->define(App\User::class, function (Faker\Generator $faker) {
+$factory->define(App\Http\Models\User::class, function (Faker\Generator $faker) {
     static $password;
 
     return [
         'name' => $faker->name,
         'email' => $faker->unique()->safeEmail,
-        'password' => $password ?: $password = bcrypt('secret'),
+        'password' => $password ?: $password = bcrypt('qwerty'),
         'remember_token' => str_random(10),
+    ];
+});
+
+$factory->define(App\Http\Models\Article::class, function (Faker\Generator $faker) {
+
+    return [
+        'title' => $faker->realText(50),
+        'content' => $faker->realText(1024),
+        'user_id' =>mt_rand(1,10),
+    ];
+});
+
+$factory->define(App\Http\Models\Tag::class, function (Faker\Generator $faker) {
+
+    return [
+        'name' => $faker->word,     
+    ];
+});
+
+$factory->define(App\Http\Models\Comment::class, function (Faker\Generator $faker) {
+
+    return [
+        'text' => $faker->realText(50),
+        'user_id' =>mt_rand(1,10),
     ];
 });
