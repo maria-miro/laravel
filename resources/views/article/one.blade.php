@@ -36,7 +36,7 @@
 
 	@if (count($tags)>0)	
 	<p class="tags">
-         <span>Тэги: </span>
+         <span>Теги: </span>
          @foreach ($tags as $tag)
 	      	<a href="">{{$tag->name}}   </a>  
 	      @endforeach

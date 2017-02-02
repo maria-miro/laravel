@@ -31,7 +31,6 @@ class ArticleController extends Controller
             'article' => $article,
             'comments' => $comments,
             'tags' => $tags,
-
         ]);        
     }
 

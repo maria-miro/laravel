@@ -17,7 +17,7 @@
     @endforeach
     <textarea name="content"  cols="80" rows="10">{{old('content')}}</textarea><br>
     @if (count($tags)>0)
-    Тэги:<br>
+    Теги:<br>
     @endif
     @forelse ($tags as $tag)
         <input type="checkbox" name = "tags[]" value="{{$tag->id}}">{{$tag->name}}<br> 
