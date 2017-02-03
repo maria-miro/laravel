@@ -28,9 +28,9 @@
 	@if (Auth::check())
 	<form>
 		<input type="button" value="Редактировать" 
-		onClick="location.href=&quot;{{route('article.edit', ['id' => $article->id])}}&quot;">
+		onClick="location.href=&quot;{{route('article.edit', ['articleId' => $article->id])}}&quot;">
 		<input type="button" value="Удалить"  
-		onClick="location.href=&quot;{{route('article.delete', ['id' => $article->id])}}&quot;">
+		onClick="location.href=&quot;{{route('article.delete', ['articleId' => $article->id])}}&quot;">
 	</form>
 	@endif
 
@@ -59,7 +59,7 @@
 
       <li class="depth-1">
          <div class="comment-content">
-
+         	<a name="comment/{{$comment->id}}"></a>
              <div class="comment-info">
 					<span>{{$comment->updated_at}}</span>
 					<span class="meta-sep">&bull;</span>
@@ -68,6 +68,7 @@
 
              <div class="comment-text">
                 <p>{{$comment->text}}</p>
+                <a href="{{route('comment.delete', ['articleId' => $article->id, 'commentId' => $comment->id])}}">Удалить комментарий</a>
              </div>
           </div>
       </li>
@@ -81,17 +82,22 @@
    <!-- respond -->
    <div class="respond">
 
-      <h3>Leave a Comment</h3>
+      <h3>Оставьте комментарий</h3>
 
 	<!-- form -->
-	<form name="contactForm" id="contactForm" method="post" action="">
+	<form name="contactForm" id="contactForm" method="post" action="{{route('comment.addPost', ['articleId' => $article->id])}}">
 	{{ csrf_field() }}
 		<fieldset>
 			<div class="message group">
-				<label  for="cMessage">Message <span class="required">*</span></label>
-				<textarea name="cMessage"  id="cMessage" rows="10" cols="50" ></textarea>
+			@foreach ($errors->get('text') as $message)
+		        <ul>
+		            <li class = "error">{{ $message }}</li>
+		        </ul>
+		    @endforeach
+				<label  for="text">Text <span class="required">*</span></label>
+				<textarea name="text"  id="text" rows="10" cols="50" >{{old('text')}}</textarea>
 			</div>
-			<button type="submit" class="submit">Submit</button>
+			<button type="submit" class="submit">Сохранить</button>
 		</fieldset>
 	</form> <!-- Form End -->
 

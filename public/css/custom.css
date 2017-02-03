@@ -4,11 +4,15 @@ div #message {
     background-color: f5f5f5;
       padding: 12;
     font-size: larger;
+     border-radius: 3px;
+
 }
 
 li.error {
     background-color: #e8c3c2;
     color: #fff;
+   border-radius: 3px;
+
 }
 
 div.comment-info {
