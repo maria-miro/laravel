@@ -37,4 +37,9 @@ class Article extends Model
     {
         return $this->belongsToMany('App\Http\Models\Tag');
     }
+
+    public function tagList()
+    {
+        return $this->tags()->get()->implode('name', ', ');
+    }
 }

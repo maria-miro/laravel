@@ -11,6 +11,7 @@ class ArticleController extends Controller
 {
     public function showList()
     {
+        
         $articles = Article::latest('updated_at')->get();
         return view('layouts.primary', [
             'page' => 'article.list',
@@ -23,6 +24,7 @@ class ArticleController extends Controller
     public function showOne($articleId)
     {
     	$article = Article::where('id', $articleId)->firstOrFail();
+        dump( $article->tags()->get()->implode('name', ', '));
         $comments = $article->comments()->get();
         $tags = $article->tags()->get();
         return view('layouts.primary', [

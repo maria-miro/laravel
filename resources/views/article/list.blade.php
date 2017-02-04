@@ -4,15 +4,16 @@
 
 	<header class="entry-header">
 
-		<h2 class="entry-title">
+		<h3 class="entry-title">
     		<a href="{{route('article.one', ['id' => $article->id])}}">{{$article->title}}</a><hr>
-		</h2> 				 
+		</h3> 				 
 	
 		<div class="entry-meta">
 			<ul>
-				<li>{{$article->updated_at}}</li>
-				<span class="meta-sep">&bull;</span>								
-				<li><a href="#" title="" rel="category tag">tag</a></li>
+				<li>{{getRusDate($article->updated_at)}}</li>
+				<span class="meta-sep">&bull;</span>
+
+				<li><a href="#" title="" rel="category tag">{{$article->tagList()}}</a></li>
 				<span class="meta-sep">&bull;</span>
 				<li>{{$article->user->name}}</li>
 			</ul>
@@ -21,7 +22,7 @@
 	</header> 
 	
 	<div class="entry-content">
-		<p></p>
+		<p>{{makeDescription($article->content)}}</p>
 	</div> 
 
 </article> <!-- end entry -->
