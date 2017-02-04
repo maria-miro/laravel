@@ -55,7 +55,7 @@
 
 
 	@if (Auth::check())
-	 @include('comment.add')
+		@include('comment.add')
 	@else
 		<a href="{{route('login')}}">Войдите, чтобы оставить комментарий</a>
 	@endif

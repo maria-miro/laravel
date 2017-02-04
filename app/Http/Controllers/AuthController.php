@@ -45,6 +45,9 @@ class AuthController extends Controller
 
     public function login()
     {
+        if (url()->previous() != route('login')) {
+            $this->request->session()->flash('back', url()->previous()); 
+        } 
         return view('layouts.primary', [
             'page' => 'auth.login',
             'title' => 'Авторизация',
@@ -59,7 +62,7 @@ class AuthController extends Controller
             'email' => $this->request->input('email'),
             'password' => $this->request->input('password')
             ], $remember)) {
-            return redirect()->intended();
+            return redirect()->intended(session('back'));
         } else {
             return redirect()->back()
                 ->withInput($this->request->only('email', 'remember'))
