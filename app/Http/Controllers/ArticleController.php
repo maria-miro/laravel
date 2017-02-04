@@ -21,6 +21,18 @@ class ArticleController extends Controller
         ]);		
     }
 
+    public function listByTag($tagId)
+    {
+       $tag = Tag::findOrFail($tagId);
+
+        $articles = $tag->articles()->latest('updated_at')->get();
+        return view('layouts.primary', [
+            'page' => 'article.list',
+            'title' => $tag,
+            'articles' => $articles,
+        ]);     
+    }
+
     public function showOne($articleId)
     {
     	$article = Article::where('id', $articleId)->firstOrFail();

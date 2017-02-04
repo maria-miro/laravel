@@ -46,6 +46,10 @@ Route::group(['prefix' => 'article'], function(){
 	Route::post('/{articleId}/comment/{commentId}/delete', 'CommentController@deleteCommentPost')
 		->where(['articleId' => '[0-9]+','commentId' => '[0-9]+'])->middleware('auth')->name('comment.deletePost');
 
+	Route::get('/tag/{tagId}','ArticleController@listByTag')
+		->where('tagId', '[0-9]+')->name('article.listByTag');
+
+
 
 });
 
