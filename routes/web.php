@@ -25,26 +25,26 @@ Route::group(['prefix' => 'article'], function(){
 		->middleware('auth')->name('article.addPost');
 
 	Route::get('/{articleId}/edit', 'ArticleController@editArticle')
-		->where('articleId', '[0-9]+')->middleware('auth')->name('article.edit');
+		->where('articleId', '[0-9]+')->name('article.edit');
 
 	Route::post('/{articleId}/edit', 'ArticleController@editArticlePost')
-		->where('articleId', '[0-9]+')->middleware('auth')->name('article.editPost');
+		->where('articleId', '[0-9]+')->name('article.editPost');
 
 	Route::get('/{articleId}/delete', 'ArticleController@deleteArticle')
-		->where('articleId', '[0-9]+')->middleware('auth')->name('article.delete');
+		->where('articleId', '[0-9]+')->name('article.delete');
 
 	Route::post('/{articleId}/delete', 'ArticleController@deleteArticlePost')
-		->where('articleId', '[0-9]+')->middleware('auth')->name('article.deletePost');
+		->where('articleId', '[0-9]+')->name('article.deletePost');
 
 
 	Route::post('/{articleId}/comment/add', 'CommentController@addCommentPost')
 		->where('articleId', '[0-9]+')->middleware('auth')->name('comment.addPost');
 
 	Route::get('/{articleId}/comment/{commentId}/delete', 'CommentController@deleteComment')
-		->where(['articleId' => '[0-9]+','commentId' => '[0-9]+'])->middleware('auth')->name('comment.delete');
+		->where(['articleId' => '[0-9]+','commentId' => '[0-9]+'])->name('comment.delete');
 
 	Route::post('/{articleId}/comment/{commentId}/delete', 'CommentController@deleteCommentPost')
-		->where(['articleId' => '[0-9]+','commentId' => '[0-9]+'])->middleware('auth')->name('comment.deletePost');
+		->where(['articleId' => '[0-9]+','commentId' => '[0-9]+'])->name('comment.deletePost');
 
 	Route::get('/tag/{tagId}','ArticleController@listByTag')
 		->where('tagId', '[0-9]+')->name('article.listByTag');

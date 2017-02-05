@@ -34,7 +34,10 @@ class CommentController extends Controller
 
 	public function deleteComment($articleId, $commentId)
     {
-        Comment::findOrFail($commentId);
+        $comment = Comment::findOrFail($commentId);
+
+        $this->authorize('delete', $comment);
+        
         return view('layouts.primary', [
             'page' => 'article.deleteConfirm',
             'title' => 'Удаление комментария',

@@ -87,6 +87,8 @@ class ArticleController extends Controller
     {
         $article = Article::findOrFail($articleId);
 
+        $this->authorize('update', $article);
+
         return view('layouts.primary', [
             'page' => 'article.edit',
             'title' => 'Редактирование статьи',
@@ -95,7 +97,7 @@ class ArticleController extends Controller
         ]); 
     }   
 
-    public function editArticlePost($articleId)
+    public function editArticlePost($articleId, Article $article)
     {  
         $this->validate($this->request, [
             'title' => 'required|min:5|max:150|',
@@ -118,7 +120,10 @@ class ArticleController extends Controller
 
     public function deleteArticle($articleId)
     {
-        Article::findOrFail($articleId);
+        $article = Article::findOrFail($articleId);
+
+        $this->authorize('delete', $article);
+
         return view('layouts.primary', [
             'page' => 'article.deleteConfirm',
             'title' => 'Удаление статьи',

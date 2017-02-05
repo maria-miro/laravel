@@ -15,7 +15,9 @@
 
              <div class="comment-text">
                 <p>{{$comment->text}}</p>
-                <a href="{{route('comment.delete', ['articleId' => $article->id, 'commentId' => $comment->id])}}">Удалить комментарий</a>
+                @can('delete', $comment)  
+                  <a href="{{route('comment.delete', ['articleId' => $article->id, 'commentId' => $comment->id])}}">Удалить комментарий</a>
+                @endcan
              </div>
           </div>
       </li>

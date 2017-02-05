@@ -10,7 +10,6 @@
 				<li>{{$article->user->name}}</li>
 			</ul>
 		</div> 
- 
 	</header> 
 
 	<div class="entry-content-media">
@@ -23,14 +22,17 @@
 		<p>{{$article->content}} </p>
 	</div>
 
-	@if (Auth::check())
-	<form>
-		<input type="button" value="Редактировать" 
-		onClick="location.href=&quot;{{route('article.edit', ['articleId' => $article->id])}}&quot;">
-		<input type="button" value="Удалить"  
-		onClick="location.href=&quot;{{route('article.delete', ['articleId' => $article->id])}}&quot;">
+	<form method="post">
+		@can('update', $article)
+		    <input type="button" value="Редактировать" 
+				onClick="location.href=&quot;{{route('article.edit', ['articleId' => $article->id])}}&quot;">
+		@endcan
+		@can('delete', $article)  
+			<input type="button" value="Удалить"  
+				onClick="location.href=&quot;{{route('article.delete', ['articleId' => $article->id])}}&quot;">	
+		@endcan
 	</form>
-	@endif
+	
 
 	@if (count($tags)>0)	
 	<p class="tags">
@@ -50,7 +52,7 @@
 	@if (count($comments) > 0)   
 		@include('comment.list')
 	@else
-	    <h3>Нет комментариев</h3>
+	    <h3>Нет комментариев</h3><hr>
 	@endif
 
 
