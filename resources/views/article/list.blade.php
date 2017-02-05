@@ -13,7 +13,7 @@
 				<li>{{getRusDate($article->updated_at)}}</li>
 				<span class="meta-sep">&bull;</span>
 
-				<li><a href="#" title="" rel="category tag">{{$article->tagList()}}</a></li>
+				<li>{{$article->tagList()}}</li>
 				<span class="meta-sep">&bull;</span>
 				<li>{{$article->user->name}}</li>
 			</ul>
