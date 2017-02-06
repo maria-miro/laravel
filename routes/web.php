@@ -15,8 +15,8 @@ Route::get('/', 'ArticleController@showList')->name('home')	;
 
 Route::group(['prefix' => 'article'], function(){
 
-	Route::get('/{id}','ArticleController@showOne')
-		->where('id', '[0-9]+')->name('article.one');
+	Route::get('/{articleId}','ArticleController@showOne')
+		->where('articleId', '[0-9]+')->name('article.one');
 
 	Route::get('/add', 'ArticleController@addArticle')
 		->middleware('auth')->name('article.add');
@@ -24,17 +24,33 @@ Route::group(['prefix' => 'article'], function(){
 	Route::post('/add', 'ArticleController@addArticlePost')
 		->middleware('auth')->name('article.addPost');
 
-	Route::get('/{id}/edit', 'ArticleController@editArticle')
-		->where('id', '[0-9]+')->middleware('auth')->name('article.edit');
+	Route::get('/{articleId}/edit', 'ArticleController@editArticle')
+		->where('articleId', '[0-9]+')->name('article.edit');
 
-	Route::post('/{id}/edit', 'ArticleController@editArticlePost')
-		->where('id', '[0-9]+')->middleware('auth')->name('article.editPost');
+	Route::post('/{articleId}/edit', 'ArticleController@editArticlePost')
+		->where('articleId', '[0-9]+')->name('article.editPost');
 
-	Route::get('/{id}/delete', 'ArticleController@deleteArticle')
-		->where('id', '[0-9]+')->middleware('auth')->name('article.delete');
+	Route::get('/{articleId}/delete', 'ArticleController@deleteArticle')
+		->where('articleId', '[0-9]+')->name('article.delete');
 
-	Route::post('/{id}/delete', 'ArticleController@deleteArticlePost')
-		->where('id', '[0-9]+')->middleware('auth')->name('article.deletePost');
+	Route::post('/{articleId}/delete', 'ArticleController@deleteArticlePost')
+		->where('articleId', '[0-9]+')->name('article.deletePost');
+
+
+	Route::post('/{articleId}/comment/add', 'CommentController@addCommentPost')
+		->where('articleId', '[0-9]+')->middleware('auth')->name('comment.addPost');
+
+	Route::get('/{articleId}/comment/{commentId}/delete', 'CommentController@deleteComment')
+		->where(['articleId' => '[0-9]+','commentId' => '[0-9]+'])->name('comment.delete');
+
+	Route::post('/{articleId}/comment/{commentId}/delete', 'CommentController@deleteCommentPost')
+		->where(['articleId' => '[0-9]+','commentId' => '[0-9]+'])->name('comment.deletePost');
+
+	Route::get('/tag/{tagId}','ArticleController@listByTag')
+		->where('tagId', '[0-9]+')->name('article.listByTag');
+
+
+
 });
 
 Route::group(['prefix' => 'admin', 'namespace' => 'Admin'], function(){

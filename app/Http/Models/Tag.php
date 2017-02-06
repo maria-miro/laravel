@@ -5,7 +5,8 @@ namespace App\Http\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class Article extends Model
+
+class Tag extends Model
 {
     use SoftDeletes;
 
@@ -23,23 +24,8 @@ class Article extends Model
      */
     protected $guarded = ['id','created_at', 'updated_at','deleted_at'];
 
-    public function user()
+    public function articles()
     {
-        return $this->belongsTo('App\Http\Models\User');
-    }
-
-    public function comments()
-    {
-        return $this->hasMany('App\Http\Models\Comment');
-    }
-
-    public function tags()
-    {
-        return $this->belongsToMany('App\Http\Models\Tag');
-    }
-
-    public function tagList()
-    {
-        return $this->tags()->get()->implode('name', ', ');
+        return $this->belongsToMany('App\Http\Models\Article');
     }
 }

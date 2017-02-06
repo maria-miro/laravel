@@ -3,14 +3,15 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
 use App\Http\Models\Article;
+use App\Http\Models\Comment;
+use App\Http\Models\Tag;
 
 class ArticleController extends Controller
 {
     public function showList()
     {
-        $articles = Article::orderBy('updated_at', 'desc')->get();
+        $articles = Article::latest('updated_at')->get();
         return view('layouts.primary', [
             'page' => 'article.list',
             'title' => 'Главная',
@@ -19,21 +20,39 @@ class ArticleController extends Controller
         ]);		
     }
 
-    public function showOne($id)
+    public function listByTag($tagId)
     {
-    	$article = Article::where('id', $id)->firstOrFail();
+       $tag = Tag::findOrFail($tagId);
+
+        $articles = $tag->articles()->latest('updated_at')->get();
+        return view('layouts.primary', [
+            'page' => 'article.list',
+            'title' => $tag,
+            'articles' => $articles,
+        ]);     
+    }
+
+    public function showOne($articleId)
+    {
+    	$article = Article::where('id', $articleId)->firstOrFail();
+        $comments = $article->comments()->get();
+        $tags = $article->tags()->get();
         return view('layouts.primary', [
             'page' => 'article.one',
             'title' => $article->title,
             'article' => $article,
+            'comments' => $comments,
+            'tags' => $tags,
         ]);        
     }
 
     public function addArticle()
     {
+        $tags = Tag::all();
         return view('layouts.primary', [
             'page' => 'article.add',
             'title' => 'Новая статья',
+            'tags' => $tags,
             'activeMenu' => 'add',
         ]); 
     }   
@@ -50,9 +69,12 @@ class ArticleController extends Controller
             'content' => $this->request->input('content'),
             'user_id' => auth()->user()->id,
             ]); 
+
         $id = $article->id;
 
         if ($id) {
+            $article->tags()->attach($this->request->input('tags')); 
+            
             return redirect()->route('article.one', ['id' => $id])
                 ->with('message', trans('articles.added'));
         } else {
@@ -61,9 +83,11 @@ class ArticleController extends Controller
         }     
     }
 
-    public function editArticle($id)
+    public function editArticle($articleId)
     {
-        $article = Article::findOrFail($id);
+        $article = Article::findOrFail($articleId);
+
+        $this->authorize('update', $article);
 
         return view('layouts.primary', [
             'page' => 'article.edit',
@@ -73,20 +97,20 @@ class ArticleController extends Controller
         ]); 
     }   
 
-    public function editArticlePost($id)
+    public function editArticlePost($articleId, Article $article)
     {  
         $this->validate($this->request, [
             'title' => 'required|min:5|max:150|',
             'content' => 'required|min:10',
          ]);
 
-        $result = Article::find($id)->update([
+        $result = Article::find($articleId)->update([
             'title' => $this->request->input('title'),
             'content' => $this->request->input('content'),
             ]);
           
         if ($result) {
-            return redirect()->route('article.one', ['id' => $id])
+            return redirect()->route('article.one', ['id' => $articleId])
                 ->with('message', trans('articles.edited'));
         } else {
             return redirect()->back()
@@ -94,30 +118,34 @@ class ArticleController extends Controller
         }          
     }
 
-    public function deleteArticle($id)
+    public function deleteArticle($articleId)
     {
-        $article = Article::findOrFail($id);
+        $article = Article::findOrFail($articleId);
+
+        $this->authorize('delete', $article);
+
         return view('layouts.primary', [
             'page' => 'article.deleteConfirm',
             'title' => 'Удаление статьи',
+            'item' => 'статью',
         ]); 
 
     }
 
-    public function deleteArticlePost($id)
+    public function deleteArticlePost($articleId)
     {    
         if ($this->request->input('cancel')) {
-            return redirect()->route('article.one', ['id' => $id]);
+            return redirect()->route('article.one', ['id' => $articleId]);
         } 
         
         if ($this->request->input('confirm')){
-            $result = Article::destroy($id);
+            $result = Article::destroy($articleId);
 
             if ($result) {
                 return redirect()->home()
                     ->with('message', trans('articles.deleted'));
             } else {
-                return redirect()->route('article.one', ['id' => $id])
+                return redirect()->route('article.one', ['id' => $articleId])
                     ->with('message', trans('articles.not_deleted'));
             }
         } 

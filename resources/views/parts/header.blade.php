@@ -4,7 +4,7 @@
 
         <div class="header-content twelve columns">
 
-              <h1 id="logo-text"><a href="index.html" title="">Maria's blog</a></h1>
+              <h1 id="logo-text"><a href="{{route('home')}}" title="">Maria's blog</a></h1>
                 <p id="intro">My first blog on Laravel  </p>
         </div>          
 
