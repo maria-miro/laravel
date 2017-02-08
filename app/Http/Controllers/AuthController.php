@@ -27,6 +27,7 @@ class AuthController extends Controller
     	 ]);
 
         $user = User::create([
+            'role_id' => 2,
             'email' => $this->request->input('email'),
             'name' => $this->request->input('name'),
             'password' => bcrypt($this->request->input('password')),

@@ -13,14 +13,14 @@ class ArticlesTableSeeder extends Seeder
     {
 		factory(App\Http\Models\Article::class, 20)->create()->each(function($article) {
         			
-			$commentsCount = mt_rand(0,11);
-			for ($i = 0; $i < $commentsCount; $i++) {
+			$commentsCount = mt_rand(0,10);
+			for ($i = 0; $i <= $commentsCount; $i++) {
 				$article->comments()->save(factory(App\Http\Models\Comment::class)->make());
 			}
 			
-			$tagsCount = mt_rand(0,6);
+			$tagsCount = mt_rand(0,5);
 			$tags = [];
-			for ($i = 0; $i < $tagsCount; $i++) {
+			while (count($tags) <= $tagsCount) {
 				$tag = mt_rand(1,5);
 				if(!in_array($tag, $tags)){
 					$tags[] = $tag;

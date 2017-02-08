@@ -38,8 +38,18 @@ class User extends Authenticatable
         return $this->hasMany('App\Http\Models\Comment');
     }
 
+    public function role()
+    {
+        return $this->hasOne('App\Http\Models\Role');
+    }
+
     public function owns($related)
     {     
         return $this->id == $related->user_id;
+    }
+
+    public function isAdmin()
+    {     
+        return $this->role_id === 1;
     }
 }

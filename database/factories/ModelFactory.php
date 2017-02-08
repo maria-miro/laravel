@@ -15,6 +15,7 @@ $factory->define(App\Http\Models\User::class, function (Faker\Generator $faker) 
     static $password;
 
     return [
+        'role_id' => 2,
         'name' => $faker->name,
         'email' => $faker->unique()->safeEmail,
         'password' => $password ?: $password = bcrypt('qwerty'),
