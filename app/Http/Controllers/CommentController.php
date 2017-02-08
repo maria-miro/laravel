@@ -8,7 +8,7 @@ use App\Http\Models\Comment;
 class CommentController extends Controller
 {
     
-    public function addCommentPost($articleId)
+    public function addCommentPost($article)
     {
         $this->validate($this->request, [
             'text' => 'required|min:5|max:500|',
@@ -17,13 +17,13 @@ class CommentController extends Controller
          $comment = Comment::create([
             'text' => $this->request->input('text'),
             'user_id' => auth()->user()->id,
-            'article_id' => $articleId,
+            'article_id' => $article,
             ]); 
 
          $id = $comment->id;
 
         if ($id) {           
-            return redirect(route('article.one', ['id' => $articleId]) . "#comment/$id")
+            return redirect(route('article.one', ['id' => $article]) . "#comment/$id")
                 ->with('message', trans('comments.added'));
         } else {
             return redirect()->back()
@@ -32,12 +32,8 @@ class CommentController extends Controller
     }
 
 
-	public function deleteComment($articleId, $commentId)
-    {
-        $comment = Comment::findOrFail($commentId);
-
-        $this->authorize('delete', $comment);
-        
+	public function deleteComment($article, Comment $comment)
+    {        
         return view('layouts.primary', [
             'page' => 'article.deleteConfirm',
             'title' => 'Удаление комментария',
@@ -45,21 +41,18 @@ class CommentController extends Controller
         ]); 
     }
 
-    public function deleteCommentPost($articleId, $commentId)
+    public function deleteCommentPost($article, Comment $comment)
     {    
         if ($this->request->input('cancel')) {
-            return redirect()->route('article.one', ['id' => $articleId]);
+            return redirect(route('article.one', ['id' => $article]) . "#comment/$comment->id");
         } 
         
         if ($this->request->input('confirm')){
-
-            $comment = Comment::findOrFail($commentId);
-            $this->authorize('delete', $comment);
-            $result = $comment->destroy($commentId);
+            $result = $comment->destroy($comment->id);
 	 
 	        $message = $result ? 'comments.deleted' : 'comments.not_deleted';
 	
-	        return redirect()->route('article.one', ['id' => $articleId])
+	        return redirect()->route('article.one', ['id' => $article])
                     ->with('message', trans($message));          
         } 
     }
