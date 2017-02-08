@@ -22,8 +22,7 @@ class ArticleController extends Controller
 
     public function listByTag($tagId)
     {
-       $tag = Tag::findOrFail($tagId);
-
+        $tag = Tag::findOrFail($tagId);
         $articles = $tag->articles()->latest('updated_at')->get();
         return view('layouts.primary', [
             'page' => 'article.list',
@@ -34,7 +33,7 @@ class ArticleController extends Controller
 
     public function showOne($articleId)
     {
-    	$article = Article::where('id', $articleId)->firstOrFail();
+        $article = Article::where('id', $articleId)->firstOrFail();
         $comments = $article->comments()->get();
         $tags = $article->tags()->get();
         return view('layouts.primary', [
@@ -97,14 +96,18 @@ class ArticleController extends Controller
         ]); 
     }   
 
-    public function editArticlePost($articleId, Article $article)
+    public function editArticlePost($articleId)
     {  
+        
+        $article = Article::find($articleId);
+        $this->authorize('update', $article);
+
         $this->validate($this->request, [
             'title' => 'required|min:5|max:150|',
             'content' => 'required|min:10',
          ]);
 
-        $result = Article::find($articleId)->update([
+        $result = $article->update([
             'title' => $this->request->input('title'),
             'content' => $this->request->input('content'),
             ]);
@@ -139,7 +142,9 @@ class ArticleController extends Controller
         } 
         
         if ($this->request->input('confirm')){
-            $result = Article::destroy($articleId);
+            $article = Article::findOrFail($articleId);
+            $this->authorize('delete', $article);
+            $result = $article->destroy($articleId);
 
             if ($result) {
                 return redirect()->home()

@@ -54,8 +54,7 @@ class CommentPolicy
      */
     public function delete(User $user, Comment $comment)
     {
-        if ($user->id === $comment->user_id ||
-            $user->id === $comment->article->user_id){
+        if ($user->owns($comment)|| $user->owns($comment->article)){
             return true;
         } else {
             return false;

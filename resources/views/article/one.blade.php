@@ -5,7 +5,7 @@
 		</h2> 				 
 		<div class="entry-meta">
 			<ul>
-				<li>{{$article->updated_at}}</li>
+				<li>{{getRusDate($article->updated_at)}}</li>
 				<span class="meta-sep">&bull;</span>
 				<li>{{$article->user->name}}</li>
 			</ul>

@@ -36,7 +36,10 @@ Route::group(['prefix' => 'article'], function(){
 	Route::post('/{articleId}/delete', 'ArticleController@deleteArticlePost')
 		->where('articleId', '[0-9]+')->name('article.deletePost');
 
-
+	Route::get('/{articleId}/comment/add', function (){
+		return abort(404);
+		})->where('articleId', '[0-9]+');
+	
 	Route::post('/{articleId}/comment/add', 'CommentController@addCommentPost')
 		->where('articleId', '[0-9]+')->middleware('auth')->name('comment.addPost');
 

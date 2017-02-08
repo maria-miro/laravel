@@ -37,4 +37,9 @@ class User extends Authenticatable
     {
         return $this->hasMany('App\Http\Models\Comment');
     }
+
+    public function owns($related)
+    {     
+        return $this->id == $related->user_id;
+    }
 }

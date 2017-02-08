@@ -52,7 +52,10 @@ class CommentController extends Controller
         } 
         
         if ($this->request->input('confirm')){
-            $result = Comment::destroy($commentId);
+
+            $comment = Comment::findOrFail($commentId);
+            $this->authorize('delete', $comment);
+            $result = $comment->destroy($commentId);
 	 
 	        $message = $result ? 'comments.deleted' : 'comments.not_deleted';
 	
