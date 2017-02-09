@@ -23,9 +23,11 @@ class ArticleController extends Controller
     public function listByTag(Tag $tag)
     {
         $articles = $tag->articles()->latest('updated_at')->get();
+        $listName = "Найдено по тегу: $tag->name";
         return view('layouts.primary', [
             'page' => 'article.list',
-            'title' => $tag->name,
+            'title' => $listName,
+            'listName' => $listName,
             'articles' => $articles,
         ]);     
     }
