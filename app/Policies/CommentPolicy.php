@@ -12,7 +12,9 @@ class CommentPolicy
 
     public function before(User $user)
     {
-        return $user->isAdmin();
+        if($user->isAdmin()) {
+            return true;
+        }
     }
 
     public function delete(User $user, Comment $comment)

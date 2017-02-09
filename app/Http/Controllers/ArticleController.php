@@ -45,11 +45,10 @@ class ArticleController extends Controller
 
     public function addArticle()
     {
-        $tags = Tag::all();
         return view('layouts.primary', [
             'page' => 'article.add',
             'title' => 'Новая статья',
-            'tags' => $tags,
+            'tags' => Tag::all(),
             'activeMenu' => 'add',
         ]); 
     }   
@@ -86,6 +85,8 @@ class ArticleController extends Controller
             'page' => 'article.edit',
             'title' => 'Редактирование статьи',
             'article' => $article,
+            'tags' => Tag::all(),
+            'ownTags' => $article->tags()->pluck('id')->all(),
             'activeMenu' => 'edit',
         ]); 
     }   
@@ -103,6 +104,8 @@ class ArticleController extends Controller
             ]);
           
         if ($result) {
+            $article->tags()->sync($this->request->input('tags')); 
+
             return redirect()->route('article.one', ['id' => $article->id])
                 ->with('message', trans('articles.edited'));
         } else {

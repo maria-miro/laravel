@@ -12,7 +12,9 @@ class ArticlePolicy
 
     public function before(User $user)
     {
-        return $user->isAdmin();
+        if($user->isAdmin()) {
+            return true;
+        }
     }
 
     public function update(User $user, Article $article)

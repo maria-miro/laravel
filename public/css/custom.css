@@ -114,3 +114,7 @@ td.date {
     text-align: center;
 }
 
+.admin input{
+    float:right;
+}
+

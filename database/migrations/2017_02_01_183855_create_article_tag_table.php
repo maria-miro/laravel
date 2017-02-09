@@ -18,6 +18,7 @@ class CreateArticleTagTable extends Migration
             $table->foreign('article_id')->references('id')->on('articles') ->onUpdate('cascade'); 
             $table->integer('tag_id')->unsigned();
             $table->foreign('tag_id')->references('id')->on('tags') ->onUpdate('cascade'); 
+            $table->primary(['article_id', 'tag_id']);
         });
     }
 

@@ -21,7 +21,7 @@
                 <li class = "home"><a href="{{route('home')}}">Главная</a></li>
                 <li class = "add"><a href="{{route('article.add')}}">Новая статья</a></li>
                 @if (isAdmin())
-                <li class="has-children admin"><a href="">Админ
+                <li class="has-children admin"><a href="">Администратор
                         <ul>
                      <li><a href="{{route('admin.articles')}}">Редактировать статьи</a></li>
                      <li><a href="{{route('admin.users')}}">Редактировать пользователей</a></li>                      
