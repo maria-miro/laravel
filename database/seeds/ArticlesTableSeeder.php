@@ -20,7 +20,7 @@ class ArticlesTableSeeder extends Seeder
 			
 			$tagsCount = mt_rand(0,5);
 			$tags = [];
-			while (count($tags) <= $tagsCount) {
+			while (count($tags) < $tagsCount) {
 				$tag = mt_rand(1,5);
 				if(!in_array($tag, $tags)){
 					$tags[] = $tag;

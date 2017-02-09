@@ -46,8 +46,10 @@ Route::group(['prefix' => 'article'], function(){
 });
 
 Route::group(['prefix' => 'admin', 'namespace' => 'Admin'], function(){
-		Route::get('/articles', 'ArticleController@editAllArticles')->name('admin.articles');	 	
-		Route::get('/users', 'UserController@editAllUsers')->name('admin.users');	 	
+		Route::get('/articles', 'ArticleController@manageArticles')->middleware('admin')->name('admin.articles');	 		 	
+		Route::post('/articles', 'ArticleController@deleteArticles')->middleware('admin')->name('admin.articles.delete');	 	
+		Route::get('/users', 'UserController@manageUsers')->middleware('admin')->name('admin.users');	
+		Route::post('/users', 'UserController@deleteUsers')->middleware('admin')->name('admin.users.delete');		 	
 });
 
 Route::get('/login', 'AuthController@login')->name('login');

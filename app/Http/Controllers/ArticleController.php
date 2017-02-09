@@ -128,8 +128,7 @@ class ArticleController extends Controller
         } 
         
         if ($this->request->input('confirm')){
-            $result = $article->destroy($article->id);
-
+            $result = $article->deleteWithComments();
             if ($result) {
                 return redirect()->home()
                     ->with('message', trans('articles.deleted'));

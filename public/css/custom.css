@@ -100,4 +100,17 @@ li.depth-1 {
     padding-left: 0px;
 }
 
+/*table*/
+
+
+table.admin {
+    width: 100%;
+}
+
+td.checkbox {
+    text-align: center;
+}
+td.date {
+    text-align: center;
+}
 

@@ -22,7 +22,7 @@
 		<p>{{$article->content}} </p>
 	</div>
 
-	<form method="post">
+	<form>
 		@can('update', $article)
 		    <input type="button" value="Редактировать" 
 				onClick="location.href=&quot;{{route('article.edit', ['articleId' => $article->id])}}&quot;">

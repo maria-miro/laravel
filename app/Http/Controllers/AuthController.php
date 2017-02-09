@@ -35,6 +35,7 @@ class AuthController extends Controller
         $id = $user->id;
 
     	if ($id) {
+            Auth::loginUsingId($id);
             return redirect()->home()
                 ->with('message', trans('auth.registed'));
         } else {

@@ -52,4 +52,12 @@ class User extends Authenticatable
     {     
         return $this->role_id === 1;
     }
+
+    public function deleteWithArticles()
+    {
+        $this->articles()->each(function($article){
+            $article->deleteWithComments();
+        });
+        return $this->delete();       
+    }
 }

@@ -17,6 +17,9 @@ class SidebarComposer
     public function compose(View $view)
     {
         $view->with('tags', Tag::all());
-        $view->with('randoms', Article::all()->random(3));
+        
+        $articles = Article::all();
+        $randoms =  ($articles->count() > 3) ? $articles->random(3) : null;
+        $view->with('randoms', $randoms);
     }
 }
