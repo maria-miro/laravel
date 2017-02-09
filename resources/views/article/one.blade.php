@@ -12,9 +12,10 @@
 		</div> 
 	</header> 
 
+
 	<div class="entry-content-media">
 		<div class="post-thumb">
-			<img src="images/m-farmerboy.jpg">
+			<img src="{{$article->image or ''}}">
 		</div> 
 	</div>
 

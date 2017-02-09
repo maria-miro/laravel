@@ -22,7 +22,6 @@ class CommentPolicy
         if ($user->owns($comment)|| $user->owns($comment->article)){
             return true;
         }
-        return false;
-        
+        return false;        
     }
 }

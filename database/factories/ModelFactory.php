@@ -28,6 +28,7 @@ $factory->define(App\Http\Models\Article::class, function (Faker\Generator $fake
     return [
         'title' => $faker->realText(50),
         'content' => $faker->realText(1024),
+        'image' => $faker->imageUrl(1280,720),
         'user_id' =>mt_rand(1,10),
     ];
 });

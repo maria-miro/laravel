@@ -25,7 +25,7 @@ class ArticleController extends Controller
         $articles = $tag->articles()->latest('updated_at')->get();
         return view('layouts.primary', [
             'page' => 'article.list',
-            'title' => $tag,
+            'title' => $tag->name,
             'articles' => $articles,
         ]);     
     }
