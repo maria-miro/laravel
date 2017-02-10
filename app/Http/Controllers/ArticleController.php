@@ -83,12 +83,18 @@ class ArticleController extends Controller
 
     public function editArticle(Article $article)
     {
+        if(!empty(old('tags'))){
+            $ownTags = old('tags'); 
+        } else {
+            $ownTags = $article->tags()->pluck('id')->all(); 
+        }       
+
         return view('layouts.primary', [
             'page' => 'article.edit',
             'title' => 'Редактирование статьи',
             'article' => $article,
             'tags' => Tag::all(),
-            'ownTags' => $article->tags()->pluck('id')->all(),
+            'ownTags' => $ownTags,
             'activeMenu' => 'edit',
         ]); 
     }   
@@ -123,7 +129,6 @@ class ArticleController extends Controller
             'title' => 'Удаление статьи',
             'item' => 'статью',
         ]); 
-
     }
 
     public function deleteArticlePost(Article $article)
