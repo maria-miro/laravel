@@ -13,8 +13,8 @@ class ArticleController extends Controller
 {
     public function showList()
     {
-        $articles = Cache::remember('articles', 1*60*24, function () {
-            return Article::latest('updated_at')->get();
+        $articles = Cache::remember('articles', env('CACHE_TIME', 0), function () {
+            return Article::latest('updated_at')->with('user','tags')->get();
         });
 
         return view('layouts.primary', [
