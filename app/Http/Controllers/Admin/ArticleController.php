@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Admin;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Models\Article;
-
+use Illuminate\Support\Facades\Cache;
 
 class ArticleController extends Controller
 {
@@ -28,6 +28,7 @@ class ArticleController extends Controller
         foreach ($ids as $id) {
             Article::find($id)->deleteWithComments();
         }
+        Cache::flush();
         return redirect()->back();
     }
 }

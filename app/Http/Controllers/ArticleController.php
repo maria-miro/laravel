@@ -6,18 +6,24 @@ use Illuminate\Http\Request;
 use App\Http\Models\Article;
 use App\Http\Models\Comment;
 use App\Http\Models\Tag;
+use Illuminate\Support\Facades\Cache;
+
 
 class ArticleController extends Controller
 {
     public function showList()
     {
-        $articles = Article::latest('updated_at')->get();
+        $articles = Cache::remember('articles', 1*60*24, function () {
+            return Article::latest('updated_at')->get();
+        });
+
         return view('layouts.primary', [
-            'page' => 'article.list',
-            'title' => 'Главная',
-            'articles' => $articles,
-            'activeMenu' => 'home',
-        ]);		
+                'page' => 'article.list',
+                'title' => 'Главная',
+                'articles' => $articles,
+                'activeMenu' => 'home',
+            ]); 
+       	
     }
 
     public function listByTag(Tag $tag)
@@ -72,7 +78,7 @@ class ArticleController extends Controller
 
         if ($id) {
             $article->tags()->attach($this->request->input('tags')); 
-            
+            Cache::flush();         
             return redirect()->route('article.one', ['id' => $id])
                 ->with('message', trans('articles.added'));
         } else {
@@ -112,8 +118,10 @@ class ArticleController extends Controller
             ]);
           
         if ($result) {
-            $article->tags()->sync($this->request->input('tags')); 
-
+            if ($this->request->input('tags')) {
+                $article->tags()->sync($this->request->input('tags'));  
+            }
+            Cache::flush();
             return redirect()->route('article.one', ['id' => $article->id])
                 ->with('message', trans('articles.edited'));
         } else {
@@ -140,6 +148,7 @@ class ArticleController extends Controller
         if ($this->request->input('confirm')){
             $result = $article->deleteWithComments();
             if ($result) {
+                Cache::flush();
                 return redirect()->home()
                     ->with('message', trans('articles.deleted'));
             } else {
