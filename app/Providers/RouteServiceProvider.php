@@ -23,7 +23,9 @@ class RouteServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        //
+        Route::pattern('article', '[0-9]+');
+        Route::pattern('comment', '[0-9]+');
+        Route::pattern('tag', '[0-9]+');
 
         parent::boot();
     }

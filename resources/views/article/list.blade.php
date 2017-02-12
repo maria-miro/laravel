@@ -1,4 +1,7 @@
+<h1>{{$listName or ''}}</h1><hr>
 @forelse ($articles as $article)
+
+
 
 <article class="entry">
 

@@ -15,47 +15,41 @@ Route::get('/', 'ArticleController@showList')->name('home')	;
 
 Route::group(['prefix' => 'article'], function(){
 
-	Route::get('/{articleId}','ArticleController@showOne')
-		->where('articleId', '[0-9]+')->name('article.one');
+	Route::get('/{article}','ArticleController@showOne')->name('article.one');
 
-	Route::get('/add', 'ArticleController@addArticle')
-		->middleware('auth')->name('article.add');
+	Route::get('/add', 'ArticleController@addArticle')->middleware('auth')->name('article.add');
 
-	Route::post('/add', 'ArticleController@addArticlePost')
-		->middleware('auth')->name('article.addPost');
+	Route::post('/add', 'ArticleController@addArticlePost')->middleware('auth')->name('article.addPost');
 
-	Route::get('/{articleId}/edit', 'ArticleController@editArticle')
-		->where('articleId', '[0-9]+')->middleware('auth')->name('article.edit');
+	Route::get('/{article}/edit', 'ArticleController@editArticle')->middleware('can:update,article')->name('article.edit');
 
-	Route::post('/{articleId}/edit', 'ArticleController@editArticlePost')
-		->where('articleId', '[0-9]+')->middleware('auth')->name('article.editPost');
+	Route::post('/{article}/edit', 'ArticleController@editArticlePost')->middleware('can:update,article')->name('article.editPost');
 
-	Route::get('/{articleId}/delete', 'ArticleController@deleteArticle')
-		->where('articleId', '[0-9]+')->middleware('auth')->name('article.delete');
+	Route::get('/{article}/delete', 'ArticleController@deleteArticle')->middleware('can:delete,article')->name('article.delete');
 
-	Route::post('/{articleId}/delete', 'ArticleController@deleteArticlePost')
-		->where('articleId', '[0-9]+')->middleware('auth')->name('article.deletePost');
+	Route::post('/{article}/delete', 'ArticleController@deleteArticlePost')->middleware('can:delete,article')->name('article.deletePost');
 
+	Route::get('/{article}/comment/add', function (){
+		return abort(404);
+		});
+	
+	Route::post('/{article}/comment/add', 'CommentController@addCommentPost')->middleware('auth')->name('comment.addPost');
 
-	Route::post('/{articleId}/comment/add', 'CommentController@addCommentPost')
-		->where('articleId', '[0-9]+')->middleware('auth')->name('comment.addPost');
+	Route::get('/{article}/comment/{comment}/delete', 'CommentController@deleteComment')->middleware('can:delete,comment')->name('comment.delete');
 
-	Route::get('/{articleId}/comment/{commentId}/delete', 'CommentController@deleteComment')
-		->where(['articleId' => '[0-9]+','commentId' => '[0-9]+'])->middleware('auth')->name('comment.delete');
+	Route::post('/{article}/comment/{comment}/delete', 'CommentController@deleteCommentPost')->middleware('can:delete,comment')->name('comment.deletePost');
 
-	Route::post('/{articleId}/comment/{commentId}/delete', 'CommentController@deleteCommentPost')
-		->where(['articleId' => '[0-9]+','commentId' => '[0-9]+'])->middleware('auth')->name('comment.deletePost');
-
-	Route::get('/tag/{tagId}','ArticleController@listByTag')
-		->where('tagId', '[0-9]+')->name('article.listByTag');
+	Route::get('/tag/{tag}','ArticleController@listByTag')->name('article.listByTag');
 
 
 
 });
 
 Route::group(['prefix' => 'admin', 'namespace' => 'Admin'], function(){
-		Route::get('/articles', 'ArticleController@editAllArticles')->name('admin.articles');	 	
-		Route::get('/users', 'UserController@editAllUsers')->name('admin.users');	 	
+		Route::get('/articles', 'ArticleController@manageArticles')->middleware('admin')->name('admin.articles');	 		 	
+		Route::post('/articles', 'ArticleController@deleteArticles')->middleware('admin')->name('admin.articles.delete');	 	
+		Route::get('/users', 'UserController@manageUsers')->middleware('admin')->name('admin.users');	
+		Route::post('/users', 'UserController@deleteUsers')->middleware('admin')->name('admin.users.delete');		 	
 });
 
 Route::get('/login', 'AuthController@login')->name('login');

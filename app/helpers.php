@@ -11,7 +11,7 @@
     }
 
 
-    if (!function_exists('getRusDate')) {
+if (!function_exists('getRusDate')) {
     function getRusDate($dateTime, $format = '%DAYWEEK%, d %MONTH% Y H:i', $offset = 0)
     {
         $monthArray = array('января', 'февраля', 'марта', 'апреля', 'мая', 'июня', 'июля', 'августа', 'сентября', 'октября', 'ноября', 'декабря');
@@ -26,4 +26,11 @@
 
         return date($format, $timestamp);
     }
+}
+
+function isAdmin(){
+    if (auth()->check() && auth()->user()->isAdmin()) {
+        return true;
+    }
+    return false;
 }

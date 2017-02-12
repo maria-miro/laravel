@@ -1,7 +1,12 @@
 @extends('layouts.two-column')
 
 @section('left-column')
-    @include($page)
+    @if (isset($page))
+        @includeIf($page)
+    @endif
+
+    @section('error')
+    @show    
 @endsection
 
 @section('right-column')

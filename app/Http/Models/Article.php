@@ -42,4 +42,10 @@ class Article extends Model
     {
         return $this->tags()->get()->implode('name', ', ');
     }
+
+    public function deleteWithComments()
+    {
+        $this->comments()->delete();
+        return $this->delete();       
+    }
 }

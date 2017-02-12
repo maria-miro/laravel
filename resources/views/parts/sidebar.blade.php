@@ -20,7 +20,7 @@
 </div>
 
 <!-- Случайные статьи -->
-
+@if($randoms)
 <div class="widget widget_popular">
    <h3>Случайные статьи</h3>
    <ul class="link-list">
@@ -29,3 +29,4 @@
       @endforeach
    </ul>      
 </div>
+@endif

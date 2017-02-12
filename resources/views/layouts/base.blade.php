@@ -14,9 +14,9 @@
 
        <!-- CSS
         ================================================== -->
-       <link rel="stylesheet" href="/css/default.css">
-        <link rel="stylesheet" href="/css/layout.css">  
         <link rel="stylesheet" href="/css/custom.css">  
+        <link rel="stylesheet" href="/css/default.css">
+        <link rel="stylesheet" href="/css/layout.css">  
         <link rel="stylesheet" href="/css/media-queries.css"> 
         @section('head_styles')
         @show

@@ -20,21 +20,20 @@ class ArticleController extends Controller
         ]);		
     }
 
-    public function listByTag($tagId)
+    public function listByTag(Tag $tag)
     {
-       $tag = Tag::findOrFail($tagId);
-
         $articles = $tag->articles()->latest('updated_at')->get();
+        $listName = "Найдено по тегу: $tag->name";
         return view('layouts.primary', [
             'page' => 'article.list',
-            'title' => $tag,
+            'title' => $listName,
+            'listName' => $listName,
             'articles' => $articles,
         ]);     
     }
 
-    public function showOne($articleId)
+    public function showOne(Article $article)
     {
-    	$article = Article::where('id', $articleId)->firstOrFail();
         $comments = $article->comments()->get();
         $tags = $article->tags()->get();
         return view('layouts.primary', [
@@ -48,11 +47,10 @@ class ArticleController extends Controller
 
     public function addArticle()
     {
-        $tags = Tag::all();
         return view('layouts.primary', [
             'page' => 'article.add',
             'title' => 'Новая статья',
-            'tags' => $tags,
+            'tags' => Tag::all(),
             'activeMenu' => 'add',
         ]); 
     }   
@@ -83,32 +81,40 @@ class ArticleController extends Controller
         }     
     }
 
-    public function editArticle($articleId)
+    public function editArticle(Article $article)
     {
-        $article = Article::findOrFail($articleId);
+        if(!empty(old('tags'))){
+            $ownTags = old('tags'); 
+        } else {
+            $ownTags = $article->tags()->pluck('id')->all(); 
+        }       
 
         return view('layouts.primary', [
             'page' => 'article.edit',
             'title' => 'Редактирование статьи',
             'article' => $article,
+            'tags' => Tag::all(),
+            'ownTags' => $ownTags,
             'activeMenu' => 'edit',
         ]); 
     }   
 
-    public function editArticlePost($articleId)
+    public function editArticlePost(Article $article)
     {  
         $this->validate($this->request, [
             'title' => 'required|min:5|max:150|',
             'content' => 'required|min:10',
          ]);
 
-        $result = Article::find($articleId)->update([
+        $result = $article->update([
             'title' => $this->request->input('title'),
             'content' => $this->request->input('content'),
             ]);
           
         if ($result) {
-            return redirect()->route('article.one', ['id' => $articleId])
+            $article->tags()->sync($this->request->input('tags')); 
+
+            return redirect()->route('article.one', ['id' => $article->id])
                 ->with('message', trans('articles.edited'));
         } else {
             return redirect()->back()
@@ -116,31 +122,28 @@ class ArticleController extends Controller
         }          
     }
 
-    public function deleteArticle($articleId)
+    public function deleteArticle(Article $article)
     {
-        Article::findOrFail($articleId);
         return view('layouts.primary', [
             'page' => 'article.deleteConfirm',
             'title' => 'Удаление статьи',
             'item' => 'статью',
         ]); 
-
     }
 
-    public function deleteArticlePost($articleId)
+    public function deleteArticlePost(Article $article)
     {    
         if ($this->request->input('cancel')) {
-            return redirect()->route('article.one', ['id' => $articleId]);
+            return redirect()->route('article.one', ['id' => $article->id]);
         } 
         
         if ($this->request->input('confirm')){
-            $result = Article::destroy($articleId);
-
+            $result = $article->deleteWithComments();
             if ($result) {
                 return redirect()->home()
                     ->with('message', trans('articles.deleted'));
             } else {
-                return redirect()->route('article.one', ['id' => $articleId])
+                return redirect()->route('article.one', ['id' => $article->id])
                     ->with('message', trans('articles.not_deleted'));
             }
         } 

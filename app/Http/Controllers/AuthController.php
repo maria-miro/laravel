@@ -27,6 +27,7 @@ class AuthController extends Controller
     	 ]);
 
         $user = User::create([
+            'role_id' => 2,
             'email' => $this->request->input('email'),
             'name' => $this->request->input('name'),
             'password' => bcrypt($this->request->input('password')),
@@ -34,6 +35,7 @@ class AuthController extends Controller
         $id = $user->id;
 
     	if ($id) {
+            Auth::loginUsingId($id);
             return redirect()->home()
                 ->with('message', trans('auth.registed'));
         } else {

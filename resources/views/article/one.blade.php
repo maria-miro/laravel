@@ -5,17 +5,17 @@
 		</h2> 				 
 		<div class="entry-meta">
 			<ul>
-				<li>{{$article->updated_at}}</li>
+				<li>{{getRusDate($article->updated_at)}}</li>
 				<span class="meta-sep">&bull;</span>
 				<li>{{$article->user->name}}</li>
 			</ul>
 		</div> 
- 
 	</header> 
+
 
 	<div class="entry-content-media">
 		<div class="post-thumb">
-			<img src="images/m-farmerboy.jpg">
+			<img src="{{$article->image or ''}}">
 		</div> 
 	</div>
 
@@ -23,14 +23,17 @@
 		<p>{{$article->content}} </p>
 	</div>
 
-	@if (Auth::check())
 	<form>
-		<input type="button" value="Редактировать" 
-		onClick="location.href=&quot;{{route('article.edit', ['articleId' => $article->id])}}&quot;">
-		<input type="button" value="Удалить"  
-		onClick="location.href=&quot;{{route('article.delete', ['articleId' => $article->id])}}&quot;">
+		@can('update', $article)
+		    <input type="button" value="Редактировать" 
+				onClick="location.href=&quot;{{route('article.edit', ['articleId' => $article->id])}}&quot;">
+		@endcan
+		@can('delete', $article)  
+			<input type="button" value="Удалить"  
+				onClick="location.href=&quot;{{route('article.delete', ['articleId' => $article->id])}}&quot;">	
+		@endcan
 	</form>
-	@endif
+	
 
 	@if (count($tags)>0)	
 	<p class="tags">
@@ -50,7 +53,7 @@
 	@if (count($comments) > 0)   
 		@include('comment.list')
 	@else
-	    <h3>Нет комментариев</h3>
+	    <h3>Нет комментариев</h3><hr>
 	@endif
 
 

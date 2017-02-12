@@ -4,22 +4,30 @@ namespace App\Http\Controllers\Admin;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Http\Models\Article;
+
 
 class ArticleController extends Controller
 {
-    
-    // Временный массив до подключения базы
-	protected $articles = [
-	['id' => 1, 'title' =>  'Статья 1', 'content' => 'Текст статьи 1'],
-	['id' => 2, 'title' =>  'Статья 2', 'content' => 'Текст статьи 2'],
-	['id' => 3, 'title' =>  'Статья 3', 'content' => 'Текст статьи 3'],
-	['id' => 4, 'title' =>  'Статья 4', 'content' => 'Текст статьи 4']
-    			];
-    //
-    public function editAllArticles()
+    public function manageArticles()
     {
-        return view('admin.articles' , ['articles' => $this->articles]);		
+        $articles = Article::latest('updated_at')->get();
+        return view('layouts.secondary', [
+            'page' => 'admin.articles',
+            'title' => 'Управление статьями',
+            'articles' => $articles,
+            'activeMenu' => 'admin',
+        ]);     
     }
 
-
+    public function deleteArticles()
+    {        
+        $articles = $this->request->input('deletes');
+        $ids = $this->request->input('deletes');
+        
+        foreach ($ids as $id) {
+            Article::find($id)->deleteWithComments();
+        }
+        return redirect()->back();
+    }
 }

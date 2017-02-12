@@ -7,7 +7,7 @@
             <li class = "error">{{ $message }}</li>
         </ul>
     @endforeach
-    <input type="email" name="email" value = "{{old('email')}}"><br>
+    <input type="email" name="email" value = "{{old('email', 'admin@admin.ru')}}"><br>
     Пароль<br>
     @foreach ($errors->get('password') as $message)
         <ul>
@@ -15,7 +15,7 @@
         </ul>
     @endforeach
     <input type="password" name="password" value = ""><br>
-    <input type="checkbox" name="remember" value = "{{old('remember')}}">Запомнить меня<br>
+    <input type="checkbox" name="remember" {{old('remember')?'checked':''}}>Запомнить меня<br>
     <input type="submit" value="Войти"><br>
 </form>
 

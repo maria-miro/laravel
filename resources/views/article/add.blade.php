@@ -24,5 +24,5 @@
     @empty
     @endforelse    
 
-     <input type="submit" value="Сохранить"><br>
+     <input type="submit" value=" Сохранить"><br>
 </form>
