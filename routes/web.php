@@ -59,6 +59,7 @@ Route::get('/register', 'AuthController@register')->name('register');
 Route::post('/register', 'AuthController@registerPost')->name('registerPost');
 
 
-
+Route::get('/feedback', 'MainController@feedback')->name('feedback');
+Route::post('/feedback', 'MainController@feedbackPost')->name('feedbackPost');
 
 

@@ -26,6 +26,7 @@ class UserController extends Controller
         foreach ($ids as $id) {
             User::find($id)->deleteWithArticles();
         }
+        Cache::flush();
         return redirect()->back();
     }
 
