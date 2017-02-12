@@ -20,7 +20,7 @@
 	</div>
 
 	<div class="entry-content">
-		<p>{{$article->content}} </p>
+		<p>{!! nl2br($article->content) !!} </p>
 	</div>
 
 	<form>
