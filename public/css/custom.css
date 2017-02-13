@@ -1,0 +1,120 @@
+
+div #message {
+    color: #9FCC7F;
+    background-color: f5f5f5;
+      padding: 12;
+    font-size: larger;
+     border-radius: 3px;
+
+}
+
+li.error {
+    background-color: #e8c3c2;
+    color: #fff;
+   border-radius: 3px;
+
+}
+
+div.comment-info {
+    color: #ddd;
+}
+
+
+/* auth navigation
+--------------------------------------------------------------------- */
+#auth-wrap, #auth-wrap ul, #auth-wrap li, #auth-wrap a {
+    margin: 0;
+    padding: 0;
+    border: none;
+    outline: none;
+}
+
+/* nav-wrap */
+#auth-wrap {
+   font: 12px 'opensans-bold', sans-serif;
+   text-transform: uppercase;
+   letter-spacing: 2px;   
+   background: #F5F4F3;
+   border-bottom: 1px solid #EAE8E8;
+   width: 100%;
+
+   float: right;
+   position: absolute;
+   top: 6px;
+   left: 0;
+}
+
+/* hide toggle button */
+#auth-wrap  > a { display: none; }
+
+ul#auth {
+   min-height: 50px;
+   width: auto;
+   margin-left: 20px;
+
+   float: right;
+   position: relative;
+   top: 0;   
+
+   /* left align the menu */
+   text-align: left;    
+}
+ul#auth li {
+   position: relative;
+   list-style: none;
+   height: 50px;
+   display: inline-block;   
+   padding-top: 10px;
+}
+
+/* float left to remove gaps between 1st level list items */
+ul#auth > li { float: left; }
+
+/* Links */
+ul#auth li a {
+   display: inline-block;
+   padding: 0 15px;
+   line-height: 40px;
+   text-decoration: none;
+   color: #666666;  
+
+   -webkit-transition: color .2s ease-in-out;
+   -moz-transition: color .2s ease-in-out;
+   -o-transition: color .2s ease-in-out;
+   -ms-transition: color .2s ease-in-out;
+   transition: color .2s ease-in-out;
+}
+
+ul#auth li a:hover { color: #222; }
+ul#auth li a:active { background-color: transparent !important; }
+ul#auth li.current > a {    
+   background: #fff; 
+   padding: 0 14px;  
+   border-right: 1px solid #EAE8E8;
+   border-top: 1px solid #EAE8E8;
+   border-left: 1px solid #EAE8E8; 
+   border-radius: 3px 3px 0 0;   
+}
+
+li.depth-1 {
+    padding-left: 0px;
+}
+
+/*table*/
+
+
+table.admin {
+    width: 100%;
+}
+
+td.checkbox {
+    text-align: center;
+}
+td.date {
+    text-align: center;
+}
+
+.admin input{
+    float:right;
+}
+
