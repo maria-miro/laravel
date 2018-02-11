@@ -47,7 +47,7 @@ class AuthController extends Controller
 
     public function login()
     {
-        if (url()->previous() != route('login')) {
+        if (url()->previous() != route('login') && url()->previous() != route('register')) {
             $this->request->session()->flash('back', url()->previous()); 
         } 
         return view('layouts.primary', [
