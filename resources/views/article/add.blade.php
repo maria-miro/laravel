@@ -16,13 +16,16 @@
         </ul>
     @endforeach
     <textarea name="content"  cols="80" rows="10">{{old('content')}}</textarea><br>
+    
     @if (count($tags)>0)
-    Теги:<br>
+        Теги:<br>   
+        @foreach ($tags as $tag)
+            @if (!empty(old('tags')) && in_array($tag->id, old('tags')))
+                <input type="checkbox" name = "tags[]" value="{{$tag->id}}" checked>{{$tag->name}}<br> 
+            @else
+                <input type="checkbox" name = "tags[]" value="{{$tag->id}}">{{$tag->name}}<br> 
+            @endif    
+        @endforeach    
     @endif
-    @forelse ($tags as $tag)
-        <input type="checkbox" name = "tags[]" value="{{$tag->id}}">{{$tag->name}}<br> 
-    @empty
-    @endforelse    
-
      <input type="submit" value=" Сохранить"><br>
 </form>

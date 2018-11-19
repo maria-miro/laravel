@@ -16,12 +16,13 @@
         <a class="mobile-btn" href="#" title="Hide navigation">Hide Menu</a>
 
         <div class="row">                       
-          <div class="six columns">
+          <div class="eight columns">
             <ul id="nav" class="nav">
                 <li class = "home"><a href="{{route('home')}}">Главная</a></li>
                 <li class = "add"><a href="{{route('article.add')}}">Новая статья</a></li>
+                <li class = "feedback"><a href="{{route('feedback')}}">Обратная связь</a></li>
                 @if (isAdmin())
-                <li class="has-children admin"><a href="">Администратор
+                <li class="has-children admin"><a href="">Админ
                         <ul>
                      <li><a href="{{route('admin.articles')}}">Редактировать статьи</a></li>
                      <li><a href="{{route('admin.users')}}">Редактировать пользователей</a></li>                      
@@ -30,7 +31,7 @@
                 @endif
             </ul> <!-- end #nav -->  
             </div>
-       <div  class="six columns">
+       <div  class="four columns">
             <ul id="auth" class="nav">
                
                 @if (Auth::check())
